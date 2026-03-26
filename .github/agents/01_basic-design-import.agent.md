@@ -1,29 +1,24 @@
 ---
-name: basic-design-md
-description: CSV 化された基本設計資料を原文忠実に Markdown 化する
-argument-hint: case-id と sources/basic-design 配下の CSV 群を指定してください
-tools:
-  - search
-  - read
-  - edit
+name: 01_basic-design-import
+description: CSV形式の基本設計書をテンプレートに従ってMarkdownファイルに変換する
+argument-hint: case-idを指定して、CSV形式の基本設計書を読み込みます
+tools: [vscode/memory, vscode/askQuestions, read/problems, read/readFile, read/viewImage, agent, edit/createDirectory, edit/createFile, edit/editFiles, edit/rename, search, web/fetch, todo]
 user-invocable: true
 disable-model-invocation: true
 handoffs:
-  - label: 詳細設計へ引き継ぐ
+  - label: 詳細設計作成に進む
     agent: detailed-design
-    prompt: basic-design.md と basic-design-to-detailed-design.md を作成した前提で、詳細設計を作成してください。
+    prompt: ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/basic-design/basic-design.md と ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/handoffs/basic-design-to-detailed-design.md をもとに、詳細設計を作成してください。
     send: false
 ---
-# 基本設計 md 化エージェント
 
-## 役割
+# 役割
 
-CSV 化された基本設計資料を、原文忠実に Markdown 化する。
+- CSV形式の基本設計書をテンプレートに従ってMarkdownファイルに変換する
 
-## 参照ルール
+# 必須スキル
 
-- 共通方針は [../copilot-instructions.md](../copilot-instructions.md) に従う。
-- 原文忠実性は [../instructions/design/basic-design-fidelity.instructions.md](../instructions/design/basic-design-fidelity.instructions.md) を優先する。
+- 原文忠実性は`workflow_basic-design_fidelity`スキルを使用する
 - 成果物配置は [../instructions/workflow/artifact-location.instructions.md](../instructions/workflow/artifact-location.instructions.md) に従う。
 - 出力の章立ては [../docs/templates/basic-design-md-template.md](../docs/templates/basic-design-md-template.md) を基準にする。
 - handoff の書式は [../instructions/workflow/handoff-format.instructions.md](../instructions/workflow/handoff-format.instructions.md) を参照する。

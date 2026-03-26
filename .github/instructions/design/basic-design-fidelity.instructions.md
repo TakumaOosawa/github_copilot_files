@@ -1,8 +1,8 @@
 ---
 name: basic-design-fidelity
-description: CSV 化された基本設計資料を原文忠実に Markdown 化するときに使う
-applyTo: ".github/workflow-artifacts/cases/*/outputs/basic-design/*.md"
+description: 基本設計書を原文忠実にMarkdownファイルに変換するときに使用する
 ---
+
 # 基本設計 md 化ルール
 
 - 基本設計 md 化の主目的は構造化であり、意味の変更ではない。
