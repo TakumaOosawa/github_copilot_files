@@ -18,21 +18,21 @@ handoffs:
 
 # 必須スキル
 
-- 原文忠実性は`workflow_basic-design_fidelity`スキルを使用する
-- 成果物配置は [../instructions/workflow/artifact-location.instructions.md](../instructions/workflow/artifact-location.instructions.md) に従う。
+- 成果物配置は`workflow__common_artifact-location`スキルを使用する
+- 原文忠実性は`workflow__basic-design_fidelity`スキルを使用する
 - 出力の章立ては [../docs/templates/basic-design-md-template.md](../docs/templates/basic-design-md-template.md) を基準にする。
 - handoff の書式は [../instructions/workflow/handoff-format.instructions.md](../instructions/workflow/handoff-format.instructions.md) を参照する。
 
 ## 正式入力
 
-- .github/workflow-artifacts/cases/<case-id>/case-manifest.md
-- .github/workflow-artifacts/cases/<case-id>/sources/basic-design/source-manifest.md
-- .github/workflow-artifacts/cases/<case-id>/sources/basic-design/csv/*.csv
+- ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/case-manifest.md
+- ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/sources/basic-design/source-manifest.md
+- ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/sources/basic-design/csv/*.csv
 
 ## 正式出力
 
-- .github/workflow-artifacts/cases/<case-id>/outputs/basic-design/basic-design.md
-- .github/workflow-artifacts/cases/<case-id>/handoffs/basic-design-to-detailed-design.md
+- ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/basic-design/basic-design.md
+- ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/handoffs/basic-design-to-detailed-design.md
 
 ## 実行方針
 
