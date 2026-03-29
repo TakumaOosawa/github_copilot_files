@@ -7,7 +7,7 @@ user-invocable: true
 disable-model-invocation: true
 handoffs:
   - label: 実装に進む
-    agent: implementation
+    agent: 03_implementation
     prompt: ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/detailed-design/detailed-design.md と ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/handoffs/detailed-design-to-implementation.md をもとに、実装を進めてください。
     send: false
 ---
@@ -19,6 +19,7 @@ handoffs:
 # 本エージェントの必須スキル
 
 - 詳細設計書の構造化方針は、`workflow__detailed-design_structure`スキルを使用する
+- 案件ファイルを配置するときは、`workflow__common_artifact-location`スキルを使用する
 - 成果物ファイルを作成するときは、`workflow__common_output-format`スキルを使用する
 - 引継ぎファイルを作成するときは、`workflow__common_handoff-format`スキルを使用する
 
