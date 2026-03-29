@@ -7,7 +7,7 @@ user-invocable: true
 disable-model-invocation: true
 handoffs:
   - label: 詳細設計作成に進む
-    agent: detailed-design
+    agent: 02_detailed-design
     prompt: ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/basic-design/basic-design.md と ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/handoffs/basic-design-to-detailed-design.md をもとに、詳細設計を作成してください。
     send: false
 ---
@@ -21,7 +21,6 @@ handoffs:
 - 案件ファイルを配置するときは、`workflow__common_artifact-location`スキルを使用する
 - 原文を忠実に転記するときは、`workflow__basic-design_fidelity`スキルを使用する
 - 成果物ファイルを作成するときは、`workflow__common_output-format`スキルを使用する
-- 成果物ファイルを作成するときは、`${workspaceFolder}/.github/docs/templates/basic-design-template.md` をテンプレートにする
 - 引継ぎファイルを作成するときは、`workflow__common_handoff-format`スキルを使用する
 
 # 本エージェントの作業の入力ファイル
@@ -40,7 +39,11 @@ handoffs:
 - 引継ぎファイル
   - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/handoffs/basic-design-to-detailed-design.md
 
+# 本エージェントの成果物テンプレート
+
+- ${workspaceFolder}/.github/docs/templates/basic-design-template.md
+
 # 本エージェントの禁止事項
 
-- 詳細設計レベルの責務分解を先回りしない。
-- Laravel実装方式を推測して本文へ混ぜない。
+- 詳細設計レベルの責務分解を先回りすること
+- Laravel実装方式を推測して本文へ混ぜること
