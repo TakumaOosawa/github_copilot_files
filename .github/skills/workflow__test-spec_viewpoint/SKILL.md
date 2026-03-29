@@ -1,7 +1,6 @@
 ---
-name: testing-viewpoints
-description: テスト仕様書をブラウザテストと PHPUnit テストに分けて整理するときに使う
-applyTo: ".github/workflow-artifacts/cases/*/outputs/testing/*.md"
+name: workflow__test-spec_viewpoint
+description: テスト仕様書をブラウザテストとPHPUnitテストに分けて整理するときに使う
 ---
 # テスト観点整理ルール
 

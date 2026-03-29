@@ -7,7 +7,7 @@ user-invocable: true
 disable-model-invocation: true
 handoffs:
   - label: テスト仕様書作成に進む
-    agent: test-specification
+    agent: 04_test-spec
     prompt: ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/implementation/implementation-summary.mdと${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/implementation/source-change-*.mdを前提にテスト仕様書を作成してください。
     send: false
 ---
