@@ -1,36 +1,32 @@
 ---
 name: phpunit-test-execution
-description: Laravel の PHPUnit テストを実施し、失敗原因の切り分け、結果整理、再現条件の記録を行うときに使う。Feature と Unit の観点整理にも向く。
+description: Laravel の PHPUnit テスト実施方針を Feature と Unit に振り分けるときの共通入口として使う。
 user-invocable: false
 ---
 # PHPUnit Test Execution
 
 ## 使いどころ
 
-- test-specification.md に基づき PHPUnit を実施するとき
-- Feature テストと Unit テストの実施範囲を整理するとき
-- 失敗時に test-failures.appendix.md へ再現条件を残すとき
+- PHPUnit テストの実施対象が Feature か Unit かを切り分けるとき
+- 実行前に HTTP 層確認と業務ロジック確認の責務を整理するとき
+- 失敗記録の整理先を Feature / Unit ごとに分けたいとき
 
-## 実施手順
+## 振り分け方針
 
-1. 対象ケースと前提データを確認する。
-2. 既存のテスト構成と実行コマンドを確認する。
-3. 実行対象を必要に応じて Feature と Unit に分ける。
-4. 実行結果から合否、エラーメッセージ、失敗箇所を抽出する。
-5. 失敗時は入力条件、認証状態、データ状態、再現性を整理する。
-6. 回帰観点がある場合は関連ケースも再確認する。
+1. HTTP リクエストからレスポンスまでの確認が主目的なら workflow__test-exec_feature を使う。
+2. クラスやメソッド単位のロジック確認が主目的なら workflow__test-exec_unit を使う。
+3. 認証、権限、Route、Middleware、Controller、Request の連携確認は Feature に寄せる。
+4. 計算処理、分岐、例外、戻り値の確認は Unit に寄せる。
+5. 同じ変更に両観点がある場合は Feature と Unit を分けて記録する。
 
-## 整理項目
+## 使い分けの目安
 
-- 実行コマンド
-- 実行日時
-- 合格件数 / 失敗件数
-- 失敗ケースの要点
-- 原因仮説
-- 再テスト要否
+- 外部 I/O や認証状態に依存するなら Feature を優先する。
+- 外部要因を切り離して再現できるなら Unit を優先する。
+- UI 観点が必要な確認は PHPUnit ではなく別のブラウザテスト観点へ分離する。
 
 ## 注意事項
 
-- UI 依存の確認事項を PHPUnit だけで完了扱いにしない。
-- 失敗ログは長大でも要約だけにせず、要点となるメッセージを残す。
-- DB や認証前提が結果に影響する場合は明記する。
+- ここには Feature / Unit 共通の振り分け方針だけを置き、実行詳細は各専用スキルに分離する。
+- Feature と Unit を 1 つの結果記録で混在させて、失敗原因を曖昧にしない。
+- どちらの観点でも、失敗時は再現条件と主要メッセージを省略しない。

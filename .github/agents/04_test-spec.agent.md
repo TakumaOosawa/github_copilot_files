@@ -7,7 +7,7 @@ user-invocable: true
 disable-model-invocation: true
 handoffs:
   - label: テスト実施に進む
-    agent: test-execution
+    agent: 05_test-exec
     prompt: ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/testing/test-specification.mdと${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/handoffs/test-specification-to-test-execution.mdを前提にテストを実施してください。
     send: false
 ---
@@ -22,6 +22,7 @@ handoffs:
 - ブラウザテスト方針を検討するときは、`workflow__test-spec_browser`スキルを使用する
 - Featureテスト方針を検討するときは、`workflow__test-spec_feature`スキルを使用する
 - Unitテスト方針を検討するときは、`workflow__test-spec_unit`スキルを使用する
+- 引継ぎファイルを作成するときは、`workflow__common_handoff-format`スキルを使用する
 
 # 本エージェントの作業の入力ファイル
 
