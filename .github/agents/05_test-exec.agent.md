@@ -21,7 +21,6 @@ handoffs:
 - ブラウザテストを実施するときは、`workflow__test-exec_browser`スキルを使用する
 - Featureテストを実施するときは、`workflow__test-exec_feature`スキルを使用する
 - Unitテストを実施するときは、`workflow__test-exec_unit`スキルを使用する
-- 出力の章立ては [../docs/templates/test-result-template.md](../docs/templates/test-result-template.md) を基準にする。
 - 引継ぎファイルを作成するときは、`workflow__common_handoff-format`スキルを使用する
 
 # 本エージェントの作業の入力ファイル
@@ -45,3 +44,7 @@ handoffs:
   - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/testing/test-failures.appendix.md
 - 引継ぎファイル
   - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/handoffs/test-execution-to-post-test-fix.md
+
+# 本エージェントの成果物テンプレート
+
+- ${workspaceFolder}/.github/docs/templates/test-result-template.md
