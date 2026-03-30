@@ -7,14 +7,14 @@ user-invocable: true
 disable-model-invocation: true
 handoffs:
   - label: テスト後修正に進む
-    agent: post-test-fix
+    agent: 06_post-test-fix
     prompt: test-result.md と test-failures.appendix.md を前提に最小十分な修正を行ってください。
     send: false
 ---
 
 # 本エージェントの役割
 
-- テスト仕様書と、レビュー後の引継ぎファイル（存在する場合）に従ってテストを実施し、再現可能な結果を残す。
+- テスト仕様書と、引継ぎファイル（存在する場合）に従ってテストを実施し、再現可能な結果を残す。
 
 # 本エージェントの必須スキル
 
