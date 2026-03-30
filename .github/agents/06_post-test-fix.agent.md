@@ -26,6 +26,7 @@ handoffs:
 - 案件ファイルを配置するときは、`workflow__common_artifact-location`スキルを使用する
 - 成果物ファイルを作成するときは、`workflow__common_output-format`スキルを使用する
 - 引継ぎファイルを作成するときは、`workflow__common_handoff-format`スキルを使用する
+- テンプレートファイルをもとに成果物ファイルを作成するときは、`workflow__common_design-template-guide`スキルを使用する
 
 # 本エージェントの作業の入力ファイル
 

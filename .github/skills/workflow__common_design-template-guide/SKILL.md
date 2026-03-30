@@ -1,5 +1,5 @@
 ---
-name: design-template-guidance
+name: workflow__common_design-template-guide
 description: 基本設計書、詳細設計書、テスト仕様書、レビュー結果、handoff をテンプレートに沿って作成するときに使う。章立て維持と欠落情報の扱い整理に向く。
 user-invocable: false
 ---

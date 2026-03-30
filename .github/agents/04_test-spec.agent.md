@@ -23,6 +23,7 @@ handoffs:
 - Featureテスト方針を検討するときは、`workflow__test-spec_feature`スキルを使用する
 - Unitテスト方針を検討するときは、`workflow__test-spec_unit`スキルを使用する
 - 引継ぎファイルを作成するときは、`workflow__common_handoff-format`スキルを使用する
+- テンプレートファイルをもとに成果物ファイルを作成するときは、`workflow__common_design-template-guide`スキルを使用する
 
 # 本エージェントの作業の入力ファイル
 
