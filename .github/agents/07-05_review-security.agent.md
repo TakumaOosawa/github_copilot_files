@@ -1,5 +1,5 @@
 ---
-name: review-security
+name: 07-05_review-security
 description: 入力検証、認可、権限、一般的脆弱性を確認するレビュー補助エージェント
 argument-hint: セキュリティ観点で確認したい入力、認可、権限周りを指定してください
 tools:

@@ -1,5 +1,5 @@
 ---
-name: review-coding-rules
+name: 07-01_review-coding-rules
 description: 命名、責務分離、可読性、既存パターン準拠を確認するレビュー補助エージェント
 argument-hint: コーディング規約と既存パターン準拠を確認したい対象を指定してください
 tools:

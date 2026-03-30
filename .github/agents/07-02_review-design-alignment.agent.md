@@ -1,5 +1,5 @@
 ---
-name: review-design-alignment
+name: 07-02_review-design-alignment
 description: 設計書と実装結果の整合性を確認するレビュー補助エージェント
 argument-hint: 基本設計、詳細設計、実装差分の整合を確認したい対象を指定してください
 tools:
