@@ -6,7 +6,7 @@ tools: [vscode/memory, vscode/askQuestions, read/problems, read/readFile, read/v
 user-invocable: true
 disable-model-invocation: true
 handoffs:
-  - label: 詳細設計作成に進む
+  - label: 1.詳細設計作成に進む
     agent: 02_detailed-design
     prompt: ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/basic-design/basic-design.md と ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/handoffs/basic-design-to-detailed-design.md をもとに、詳細設計を作成してください。
     send: false

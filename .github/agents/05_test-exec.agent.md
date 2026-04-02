@@ -6,9 +6,13 @@ tools: [vscode/memory, vscode/askQuestions, execute/testFailure, execute/getTerm
 user-invocable: true
 disable-model-invocation: true
 handoffs:
-  - label: テスト後修正に進む
+  - label: 1.テスト後修正に進む
     agent: 06_post-test-fix
     prompt: test-result.md と test-failures.appendix.md を前提に最小十分な修正を行ってください。
+    send: false
+  - label: 2.コードレビューに進む
+    agent: 07_review-code
+    prompt: test-result.md と test-execution-to-code-review.md を前提にコードレビューを実施してください。
     send: false
 ---
 
@@ -43,9 +47,16 @@ handoffs:
   - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/testing/test-result.md
 - 失敗ケース詳細ファイル
   - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/testing/test-failures.appendix.md
-- 引継ぎファイル
+- 引継ぎファイル（テスト失敗がある場合）
   - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/handoffs/test-execution-to-post-test-fix.md
+- 引継ぎファイル（テスト失敗がない場合）
+  - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/handoffs/test-execution-to-code-review.md
 
 # 本エージェントの成果物テンプレート
 
 - ${workspaceFolder}/.github/docs/templates/test-result-template.md
+
+## 実行方針
+
+- テスト失敗がある場合は、失敗内容と再現条件を test-failures.appendix.md と test-execution-to-post-test-fix.md に整理して 06_post-test-fix へ引き継ぐ。
+- テスト失敗がない場合は、実施した確認範囲、残留リスク、レビューで重点確認してほしい論点を test-execution-to-code-review.md に整理して 07_review-code へ引き継ぐ。

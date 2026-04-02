@@ -6,7 +6,7 @@ tools: [vscode/memory, vscode/askQuestions, read/problems, read/readFile, read/v
 user-invocable: true
 disable-model-invocation: true
 handoffs:
-  - label: 実装に進む
+  - label: 1.実装に進む
     agent: 03_implementation
     prompt: ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/detailed-design/detailed-design.md と ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/handoffs/detailed-design-to-implementation.md をもとに、実装を進めてください。
     send: false

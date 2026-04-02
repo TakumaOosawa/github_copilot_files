@@ -6,7 +6,7 @@ tools: [vscode/memory, vscode/askQuestions, read/problems, read/readFile, read/v
 user-invocable: true
 disable-model-invocation: true
 handoffs:
-  - label: レビュー実施に進む
+  - label: 1.レビュー実施に進む
     agent: 07_review-code
     prompt: post-test-fix-analysis.md と source-change-02.md を前提にコードレビューを実施してください。
     send: false

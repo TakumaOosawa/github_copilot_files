@@ -1,13 +1,13 @@
 ---
 name: 07_review-code
-description: 設計整合、規約、セキュリティ、副作用、回帰まで含めて総合レビューする
-argument-hint: case-idを指定して、設計と修正内容を読み込みます
+description: 設計整合、規約、セキュリティ、副作用、回帰、テスト十分性まで含めて総合レビューする
+argument-hint: case-idを指定して、設計、実装変更、テスト結果を読み込みます
 tools: [vscode/memory, vscode/askQuestions, read/problems, read/readFile, read/viewImage, agent, edit/createDirectory, edit/createFile, edit/editFiles, edit/rename, search, web/fetch, todo]
 agents: [07-01_review-coding-rules, 07-02_review-design-alignment, 07-03_review-laravel-structure, 07-04_review-regression, 07-05_review-security, 07-06_review-test-adequacy]
 user-invocable: true
 disable-model-invocation: true
 handoffs:
-  - label: テスト実施に進む
+  - label: 1.テスト実施に進む
     agent: 05_test-exec
     prompt: review-result.md と code-review-to-test-execution.md を前提に、必要な再テストを実施してください。
     send: false
@@ -34,10 +34,19 @@ handoffs:
   - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/basic-design/basic-design.md
 - 詳細設計ファイル
   - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/detailed-design/detailed-design.md
-- テスト後修正の成果物ファイル
+- 初回実装の成果物ファイル
+  - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/implementation/implementation-summary.md
+  - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/implementation/source-change-01.md
+- テスト実施の成果物ファイル
+  - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/testing/test-result.md
+- 失敗ケース詳細ファイル（存在する場合）
+  - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/testing/test-failures.appendix.md
+- テスト実施からの引継ぎファイル（テスト失敗がない場合）
+  - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/handoffs/test-execution-to-code-review.md
+- テスト後修正の成果物ファイル（存在する場合）
   - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/implementation/source-change-02.md
   - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/implementation/post-test-fix-analysis.md
-- テスト後修正からの引継ぎファイル
+- テスト後修正からの引継ぎファイル（存在する場合）
   - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/handoffs/post-test-fix-to-code-review.md
 
 # 本エージェントの成果物ファイル
@@ -52,6 +61,8 @@ handoffs:
 
 - 必要に応じてサブエージェントへ観点別レビューを委譲する。
 - サブエージェントによるレビューは並列で行う。
+- テスト失敗がない場合は、source-change-01.md と test-result.md と test-execution-to-code-review.md を起点にレビューする。
+- テスト後修正がある場合は、source-change-02.md と post-test-fix-analysis.md と post-test-fix-to-code-review.md を優先してレビューする。
 - review-result.md は判定結果、code-review-to-test-execution.md は再テスト用入力として分離する。
 - 指摘は重要度、根拠、影響範囲、推奨対応をそろえる。
 - 追加確認が必要な論点は必ず再テスト handoff に含める。

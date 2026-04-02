@@ -17,3 +17,5 @@
 
 ## 補足
 - csv ディレクトリ配下の実データを基本設計 md 化の原文ソースとして扱う。
+- source-manifest.md の標準テンプレートは .github/docs/templates/source-manifest-template.md とする。
+- 実案件では .github/docs/templates/source-manifest-template.md の記載項目に従って補完する。
