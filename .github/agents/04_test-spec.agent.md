@@ -51,12 +51,12 @@ handoffs:
 
 # 本エージェントの成果物ファイル
 
- - ブラウザテスト仕様書ファイル（選択されている場合）
-   - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/testing/test-spec-browser.md
- - Featureテスト仕様書ファイル（選択されている場合）
-   - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/testing/test-spec-feature.md
- - Unitテスト仕様書ファイル（選択されている場合）
-   - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/testing/test-spec-unit.md
+- ブラウザテスト仕様書ファイル（選択されている場合）
+  - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/testing/test-spec-browser.md
+- Featureテスト仕様書ファイル（選択されている場合）
+  - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/testing/test-spec-feature.md
+- Unitテスト仕様書ファイル（選択されている場合）
+  - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/testing/test-spec-unit.md
 - 引継ぎファイル
   - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/handoffs/test-specification-to-test-execution.md
 
