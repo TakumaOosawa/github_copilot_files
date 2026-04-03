@@ -9,7 +9,7 @@ disable-model-invocation: true
 handoffs:
   - label: 1.テスト実施に進む
     agent: 05_test-exec
-    prompt: ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/handoffs/test-specification-to-test-execution.md と outputs/testing 配下に作成されたテスト仕様書を前提にテストを実施してください。
+    prompt: ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/handoffs/test-specification-to-test-execution.md に記載された選択済みテスト種別と、outputs/testing 配下に実際に作成された対応テスト仕様書を前提にテストを実施してください。
     send: false
 ---
 
@@ -45,7 +45,7 @@ handoffs:
 
 - 作業開始時に case-id を確認し、正式入力の存在を確認する
 - テスト仕様書の作成対象について、ブラウザテスト / Featureテスト / Unitテストから複数選択可でユーザーに質問する
-- 1 件も選択されていない場合は、作成対象未確定として停止する
+- 1 件も選択されていない場合は、最低 1 つのテスト種別を選択する必要があることを明示して停止する
 - 選択されたテスト種別だけを成果物作成、サブエージェント委譲、引継ぎ対象に含める
 
 # 本エージェントの成果物ファイル
