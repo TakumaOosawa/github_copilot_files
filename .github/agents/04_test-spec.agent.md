@@ -1,6 +1,6 @@
 ---
 name: 04_test-spec
-description: 基本設計書・詳細設計書から、選択されたブラウザテストとFeatureテストとUnitテストのテスト仕様書を作成する
+description: 基本設計書・詳細設計書から、選択されたテスト種別のテスト仕様書を作成する
 argument-hint: case-idを指定して、作成対象のテスト仕様書種別（ブラウザテスト / Featureテスト / Unitテスト、複数選択可）を確認してから基本設計書・詳細設計書を読み込みます
 tools: [vscode/memory, vscode/askQuestions, read/problems, read/readFile, read/viewImage, agent, edit/createDirectory, edit/createFile, edit/editFiles, edit/rename, search, web/fetch, todo]
 agents: [04-01_test-spec-browser, 04-02_test-spec-feature, 04-03_test-spec-unit]
@@ -70,6 +70,6 @@ handoffs:
 - 必要に応じて、ユーザーが選択したテスト種別に対応するサブエージェントへだけ仕様作成を委譲する。
 - 選択された複数のテスト種別については、サブエージェントによる仕様検討を並列で行う。
 - サブエージェントは観点別のケース案、前提条件、期待結果を返し、親エージェントが成果物ファイルへ反映する。
-- ブラウザテスト、Feature テスト、Unit テストの重複と抜け漏れは親エージェントで統合して調整する。
+- 選択されたテスト種別どうしの重複と抜け漏れは親エージェントで統合して調整する。
 - 選択されなかったテスト種別の仕様書は新規作成・更新しない。
 - test-specification-to-test-execution.md には、選択されたテスト種別、対応する仕様書ファイル、実施順、注意点、前提データを集約する。
