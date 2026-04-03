@@ -30,11 +30,11 @@ handoffs:
 
 # 本エージェントの作業の入力ファイル
 
-- ブラウザテスト仕様書ファイル
+- ブラウザテスト仕様書ファイル（選択されている場合）
   - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/testing/test-spec-browser.md
-- Featureテスト仕様書ファイル
+- Featureテスト仕様書ファイル（選択されている場合）
   - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/testing/test-spec-feature.md
-- Unitテスト仕様書ファイル
+- Unitテスト仕様書ファイル（選択されている場合）
   - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/testing/test-spec-unit.md
 - テスト仕様書作成からの引継ぎファイル
   - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/handoffs/test-specification-to-test-execution.md
@@ -58,5 +58,6 @@ handoffs:
 
 ## 実行方針
 
+- test-specification-to-test-execution.md に記載された選択済みテスト種別と対応ファイルだけを実施対象とする。
 - テスト失敗がある場合は、失敗内容と再現条件を test-failures.appendix.md と test-execution-to-post-test-fix.md に整理して 06_post-test-fix へ引き継ぐ。
 - テスト失敗がない場合は、実施した確認範囲、残留リスク、レビューで重点確認してほしい論点を test-execution-to-code-review.md に整理して 07_review-code へ引き継ぐ。
