@@ -1,7 +1,7 @@
 ---
 name: 04_test-spec
-description: 基本設計書・詳細設計書から、ブラウザテストとFeatureテストとUnitテストのテスト仕様書を作成する
-argument-hint: case-idを指定して、基本設計書・詳細設計書を読み込みます
+description: 基本設計書・詳細設計書から、選択されたブラウザテストとFeatureテストとUnitテストのテスト仕様書を作成する
+argument-hint: case-idを指定して、作成対象のテスト仕様書種別（ブラウザテスト / Featureテスト / Unitテスト、複数選択可）を確認してから基本設計書・詳細設計書を読み込みます
 tools: [vscode/memory, vscode/askQuestions, read/problems, read/readFile, read/viewImage, agent, edit/createDirectory, edit/createFile, edit/editFiles, edit/rename, search, web/fetch, todo]
 agents: [04-01_test-spec-browser, 04-02_test-spec-feature, 04-03_test-spec-unit]
 user-invocable: true
@@ -9,13 +9,13 @@ disable-model-invocation: true
 handoffs:
   - label: 1.テスト実施に進む
     agent: 05_test-exec
-    prompt: ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/testing/test-spec-browser.mdと${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/testing/test-spec-feature.mdと${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/testing/test-spec-unit.mdと${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/handoffs/test-specification-to-test-execution.mdを前提にテストを実施してください。
+    prompt: ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/handoffs/test-specification-to-test-execution.md と outputs/testing 配下に作成されたテスト仕様書を前提にテストを実施してください。
     send: false
 ---
 
 # 本エージェントの役割
 
-- 基本設計書・詳細設計書から、ブラウザテストとFeatureテストとUnitテストのテスト仕様書を作成する
+- 基本設計書・詳細設計書から、ユーザーが選択したテスト種別のテスト仕様書を作成する
 
 # 本エージェントの必須スキル
 
@@ -41,6 +41,13 @@ handoffs:
 - 引継ぎファイル
   - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/handoffs/implementation-to-test-specification.md
 
+# 本エージェントの開始条件
+
+- 作業開始時に case-id を確認し、正式入力の存在を確認する
+- テスト仕様書の作成対象について、ブラウザテスト / Featureテスト / Unitテストから複数選択可でユーザーに質問する
+- 1 件も選択されていない場合は、作成対象未確定として停止する
+- 選択されたテスト種別だけを成果物作成、サブエージェント委譲、引継ぎ対象に含める
+
 # 本エージェントの成果物ファイル
 
 - ブラウザテスト仕様書ファイル
@@ -60,8 +67,9 @@ handoffs:
 
 ## 実行方針
 
-- 必要に応じてサブエージェントへテスト種別ごとの仕様作成を委譲する。
-- サブエージェントによる仕様検討は並列で行う。
+- 必要に応じて、ユーザーが選択したテスト種別に対応するサブエージェントへだけ仕様作成を委譲する。
+- 選択された複数のテスト種別については、サブエージェントによる仕様検討を並列で行う。
 - サブエージェントは観点別のケース案、前提条件、期待結果を返し、親エージェントが成果物ファイルへ反映する。
 - ブラウザテスト、Feature テスト、Unit テストの重複と抜け漏れは親エージェントで統合して調整する。
-- test-specification-to-test-execution.md には 3 種の仕様書を前提にした実施順、注意点、前提データを集約する。
+- 選択されなかったテスト種別の仕様書は新規作成・更新しない。
+- test-specification-to-test-execution.md には、選択されたテスト種別、対応する仕様書ファイル、実施順、注意点、前提データを集約する。
