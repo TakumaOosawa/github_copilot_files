@@ -47,15 +47,16 @@ handoffs:
 - テスト仕様書の作成対象について、ブラウザテスト / Featureテスト / Unitテストから複数選択可でユーザーに質問する
 - 1 件も選択されていない場合は、最低 1 つのテスト種別を選択する必要があることを明示して停止する
 - 選択されたテスト種別だけを成果物作成、サブエージェント委譲、引継ぎ対象に含める
+- ユーザーが選択したテスト種別は test-specification-to-test-execution.md に明記し、後続工程が参照できるようにする
 
 # 本エージェントの成果物ファイル
 
-- ブラウザテスト仕様書ファイル
-  - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/testing/test-spec-browser.md
-- Featureテスト仕様書ファイル
-  - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/testing/test-spec-feature.md
-- Unitテスト仕様書ファイル
-  - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/testing/test-spec-unit.md
+ - ブラウザテスト仕様書ファイル（選択されている場合）
+   - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/testing/test-spec-browser.md
+ - Featureテスト仕様書ファイル（選択されている場合）
+   - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/testing/test-spec-feature.md
+ - Unitテスト仕様書ファイル（選択されている場合）
+   - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/testing/test-spec-unit.md
 - 引継ぎファイル
   - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/handoffs/test-specification-to-test-execution.md
 
