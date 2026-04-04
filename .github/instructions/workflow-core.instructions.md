@@ -10,9 +10,9 @@ applyTo: "**"
 - 作業途中の検討や調整はチャットセッションで行い、永続化するのは正式成果物だけにする。
 - 正式成果物、正式入力、handoff は必ず .github/workflow-artifacts/cases/<case-id>/ 配下に保存する。
 - workflow-artifacts 直下に sources、outputs、handoffs を直接作らない。必ず cases/<case-id>/ を挟む。
+- case-manifest.md は案件の正式な進行記録として扱う。
 - 詳細設計が存在する工程では、実装判断の主基準を詳細設計とし、基本設計は意図確認用の参考資料として扱う。
 - 各工程の完了時には、次工程向けの handoff を必ず 1 つ以上残す。
-- 各工程の作業完了時には、case-manifest.md を必ず確認し、現在工程・入力状況・成果物状況を最新化する。
 - 成果物は原則 1 工程 1 正式ファイルとし、.working.md や .final.md に分割しない。
 - 不明点、曖昧点、独断禁止事項は本文または handoff に明示する。
 - 指示文、テンプレート本文、handoff 本文は原則日本語で記述する。

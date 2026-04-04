@@ -10,7 +10,7 @@ applyTo: "**"
 - 新規案件では _case-template のディレクトリ構成、初期ファイル、テンプレートの意図を確認してから cases/<case-id>/ を作成する。
 - 新規案件の case-manifest.md は _case-template/case-manifest.md の初期記入例を起点にする。
 - 工程開始時に正式入力を確認し、足りないものがあれば不足を明記する。
-- 各工程の作業後は毎回 case-manifest.md を確認し、案件識別情報、現在工程、入力状況、成果物状況を最新化する。
+- 各工程の作業後は毎回 case-manifest.md を確認し、案件識別情報、現在工程、入力状況、成果物状況に変化があれば反映して最新状態を保つ。
 - source-manifest.md を作成または更新するときは .github/docs/templates/source-manifest-template.md の章立てと記載項目を標準とする。
 - テンプレートの章立てを維持しつつ、入力不足の箇所は空欄で流さず、要確認として明示する。
 - 原文忠実性が求められる工程では意訳を避ける。
