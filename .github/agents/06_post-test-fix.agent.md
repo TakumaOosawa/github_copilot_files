@@ -48,3 +48,8 @@ handoffs:
   - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/implementation/post-test-fix-analysis.md
 - 引継ぎファイル
   - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/handoffs/post-test-fix-to-test-execution.md
+
+# 本エージェントの成果物テンプレート
+
+- ${workspaceFolder}/.github/docs/templates/source-change-02-template.md
+- ${workspaceFolder}/.github/docs/templates/post-test-fix-analysis-template.md

@@ -28,7 +28,7 @@ handoffs:
 # 本エージェントの必須スキル
 
 - レビュー範囲を確認するときは、`workflow--review-code-scope`スキルを使用する
-- 出力の章立ては [../docs/templates/review-result-template.md](../docs/templates/review-result-template.md) を基準にする。
+- 出力の章立ては [../docs/templates/review-result-template.md](../docs/templates/review-result-template.md) と [../docs/templates/review-findings-appendix-template.md](../docs/templates/review-findings-appendix-template.md) を基準にする。
 - 案件ファイルを配置するときは、`workflow--common-artifact-location`スキルを使用する
 - 成果物ファイルを作成するときは、`workflow--common-output-format`スキルを使用する
 - 引継ぎファイルを作成するときは、`workflow--common-handoff-format`スキルを使用する
@@ -65,6 +65,11 @@ handoffs:
   - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/handoffs/code-review-to-test-specification.md
   - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/handoffs/code-review-to-test-execution.md
   - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/handoffs/code-review-complete.md
+
+# 本エージェントの成果物テンプレート
+
+- ${workspaceFolder}/.github/docs/templates/review-result-template.md
+- ${workspaceFolder}/.github/docs/templates/review-findings-appendix-template.md
 
 ## 実行方針
 

@@ -57,6 +57,7 @@ handoffs:
 # 本エージェントの成果物テンプレート
 
 - ${workspaceFolder}/.github/docs/templates/test-result-template.md
+- ${workspaceFolder}/.github/docs/templates/test-failures-appendix-template.md
 
 ## 実行方針
 

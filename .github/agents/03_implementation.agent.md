@@ -53,6 +53,11 @@ handoffs:
 - 引継ぎファイル
   - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/handoffs/implementation-to-test-specification.md
 
+# 本エージェントの成果物テンプレート
+
+- ${workspaceFolder}/.github/docs/templates/implementation-summary-template.md
+- ${workspaceFolder}/.github/docs/templates/source-change-01-template.md
+
 # 本エージェントの禁止事項
 
 - 詳細設計を無視して実装を進めること
