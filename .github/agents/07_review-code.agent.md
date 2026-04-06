@@ -9,7 +9,7 @@ disable-model-invocation: true
 handoffs:
   - label: 1.実装に差し戻す
     agent: 03_implementation
-    prompt: ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/review/review-result.md と ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/handoffs/code-review-to-implementation.md を前提に、レビュー指摘へ対応する実装修正を行ってください。
+    prompt: ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/detailed-design/detailed-design.md と ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/handoffs/detailed-design-to-implementation.md と ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/review/review-result.md と ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/handoffs/code-review-to-implementation.md を前提に、レビュー指摘へ対応する実装修正を行ってください。
     send: false
   - label: 2.テスト仕様追加に戻す
     agent: 04_test-spec
@@ -84,7 +84,7 @@ handoffs:
 - review-result.md は正式成果物として判定結果と要点を集約し、詳細指摘が多い場合のみ review-findings.appendix.md を補助明細として併用する。
 - レビューで新しいテスト種別の追加または既存テスト仕様書の拡張が必要と判断した場合は、code-review-to-test-specification.md を作成して 04_test-spec へ戻す。
 - review-result.md には、修正要否、再テスト要否、次アクション、戻し先工程を整合させて記載する。
-- 修正要否が「要」の場合は、再テスト要否の有無にかかわらず code-review-to-implementation.md を作成し、03_implementation へ差し戻す。
+- 修正要否が「要」の場合は、再テスト要否の有無にかかわらず code-review-to-implementation.md を作成し、review-result.md とあわせて 03_implementation へ差し戻す。
 - 修正要否が「否」かつ再テスト要否が「要」で、新しいテスト種別の追加または既存テスト仕様書の拡張が必要な場合は、code-review-to-test-specification.md を作成し、04_test-spec へ戻す。
 - 修正要否が「否」かつ再テスト要否が「要」で、既存のテスト仕様書で再確認可能な場合は、code-review-to-test-execution.md を作成し、05_test-exec へ戻す。
 - 修正要否が「否」かつ再テスト要否が「否」の場合は、code-review-complete.md を作成し、レビュー完了として工程を終了する。

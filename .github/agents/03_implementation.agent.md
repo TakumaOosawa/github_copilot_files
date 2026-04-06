@@ -1,7 +1,7 @@
 ---
 name: 03_implementation
-description: 詳細設計書を必須入力として読み込み、存在しない場合は停止したうえで実装を進めて変更内容を成果物へ整理する
-argument-hint: case-idを指定して、詳細設計書と引継ぎファイルを確認してから実装します。詳細設計書が無い場合は停止します
+description: 詳細設計書を必須入力として読み込み、初回実装とレビュー差戻しのどちらでも必要入力を確認したうえで変更内容を成果物へ整理する
+argument-hint: case-idを指定して、詳細設計書と必要な引継ぎファイルを確認してから実装します。レビュー差戻し時は review-result と code-review-to-implementation も確認します
 tools: [vscode/memory, vscode/askQuestions, read/problems, read/readFile, read/viewImage, agent, edit/createDirectory, edit/createFile, edit/editFiles, edit/rename, search, web/fetch, browser/openBrowserPage, browser/readPage, browser/screenshotPage, browser/navigatePage, browser/clickElement, browser/dragElement, browser/hoverElement, browser/typeInPage, browser/handleDialog, todo]
 user-invocable: true
 disable-model-invocation: true
@@ -33,16 +33,22 @@ handoffs:
   - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/basic-design/basic-design.md
 - 詳細設計書ファイル
   - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/detailed-design/detailed-design.md
-- 引継ぎファイル
+- 初回実装の引継ぎファイル
   - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/handoffs/detailed-design-to-implementation.md
+- レビュー差戻し時の入力ファイル
+  - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/review/review-result.md
+  - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/handoffs/code-review-to-implementation.md
 
 # 本エージェントの開始条件
 
-- 作業開始時に case-id を確認し、正式入力の存在を確認する
-- 詳細設計書ファイルと引継ぎファイルを先に読み込み、その内容を主基準として実装判断を行う
+- 作業開始時に case-id を確認し、初回実装かレビュー差戻し対応かを判定したうえで正式入力の存在を確認する
+- 詳細設計書ファイルと初回実装の引継ぎファイルを先に読み込み、その内容を主基準として実装判断を行う
+- レビュー差戻し対応として着手する場合は、review-result.md と code-review-to-implementation.md も読み込み、レビュー指摘と修正要求を確認してから実装判断を行う
 - 基本設計書ファイルは、詳細設計書を読み込んだあとに意図確認用の参考資料として扱う
 - 詳細設計書ファイルが存在しない、空である、または読み込めない場合は実装を開始せず、不足している正式入力を明示して停止する
+- レビュー差戻し対応として着手する場合に review-result.md または code-review-to-implementation.md が存在しない、空である、または読み込めない場合は、レビュー差戻しの正式入力不足を明示して停止する
 - 詳細設計書を読まずにコード探索、コード編集、成果物作成を開始しない
+- レビュー差戻しの正式入力を読まずに、レビュー指摘対応のためのコード探索、コード編集、成果物作成を開始しない
 
 # 本エージェントの成果物ファイル
 
@@ -63,5 +69,6 @@ handoffs:
 - 詳細設計を無視して実装を進めること
 - 詳細設計書の存在確認と読込を行わずに実装を開始すること
 - 詳細設計書ファイルが無い状態で、基本設計書や推測だけを根拠に実装すること
+- レビュー差戻し時に review-result.md と code-review-to-implementation.md を確認せずに指摘対応を進めること
 - 設計差分を記録せずに振る舞いを変えること
 - 成果物を残さずに工程完了とすること
