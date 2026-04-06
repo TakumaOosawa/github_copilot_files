@@ -19,14 +19,14 @@ handoffs:
 
 # 本エージェントの必須スキル
 
-- テスト観点を整理するときは、`workflow__test-spec_viewpoint`スキルを使用する
-- ブラウザテスト方針を検討するときは、`workflow__test-spec_browser`スキルを使用する
-- Featureテスト方針を検討するときは、`workflow__test-spec_feature`スキルを使用する
-- Unitテスト方針を検討するときは、`workflow__test-spec_unit`スキルを使用する
-- 案件ファイルを配置するときは、`workflow__common_artifact-location`スキルを使用する
-- 成果物ファイルを作成するときは、`workflow__common_output-format`スキルを使用する
-- 引継ぎファイルを作成するときは、`workflow__common_handoff-format`スキルを使用する
-- テンプレートファイルをもとに成果物ファイルを作成するときは、`workflow__common_design-template-guide`スキルを使用する
+- テスト観点を整理するときは、`workflow--test-spec-viewpoint`スキルを使用する
+- ブラウザテスト方針を検討するときは、`workflow--test-spec-browser`スキルを使用する
+- Featureテスト方針を検討するときは、`workflow--test-spec-feature`スキルを使用する
+- Unitテスト方針を検討するときは、`workflow--test-spec-unit`スキルを使用する
+- 案件ファイルを配置するときは、`workflow--common-artifact-location`スキルを使用する
+- 成果物ファイルを作成するときは、`workflow--common-output-format`スキルを使用する
+- 引継ぎファイルを作成するときは、`workflow--common-handoff-format`スキルを使用する
+- テンプレートファイルをもとに成果物ファイルを作成するときは、`workflow--common-design-template-guide`スキルを使用する
 
 # 本エージェントの作業の入力ファイル
 

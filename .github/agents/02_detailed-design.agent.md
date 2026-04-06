@@ -18,11 +18,11 @@ handoffs:
 
 # 本エージェントの必須スキル
 
-- 詳細設計書の構造化方針は、`workflow__detailed-design_structure`スキルを使用する
-- 案件ファイルを配置するときは、`workflow__common_artifact-location`スキルを使用する
-- 成果物ファイルを作成するときは、`workflow__common_output-format`スキルを使用する
-- 引継ぎファイルを作成するときは、`workflow__common_handoff-format`スキルを使用する
-- テンプレートファイルをもとに成果物ファイルを作成するときは、`workflow__common_design-template-guide`スキルを使用する
+- 詳細設計書の構造化方針は、`workflow--detailed-design-structure`スキルを使用する
+- 案件ファイルを配置するときは、`workflow--common-artifact-location`スキルを使用する
+- 成果物ファイルを作成するときは、`workflow--common-output-format`スキルを使用する
+- 引継ぎファイルを作成するときは、`workflow--common-handoff-format`スキルを使用する
+- テンプレートファイルをもとに成果物ファイルを作成するときは、`workflow--common-design-template-guide`スキルを使用する
 
 # 本エージェントの作業の入力ファイル
 

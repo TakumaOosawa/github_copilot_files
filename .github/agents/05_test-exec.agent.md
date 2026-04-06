@@ -22,11 +22,11 @@ handoffs:
 
 # 本エージェントの必須スキル
 
-- ブラウザテストを実施するときは、`workflow__test-exec_browser`スキルを使用する
-- Featureテストを実施するときは、`workflow__test-exec_feature`スキルを使用する
-- Unitテストを実施するときは、`workflow__test-exec_unit`スキルを使用する
-- 引継ぎファイルを作成するときは、`workflow__common_handoff-format`スキルを使用する
-- テンプレートファイルをもとに成果物ファイルを作成するときは、`workflow__common_design-template-guide`スキルを使用する
+- ブラウザテストを実施するときは、`workflow--test-exec-browser`スキルを使用する
+- Featureテストを実施するときは、`workflow--test-exec-feature`スキルを使用する
+- Unitテストを実施するときは、`workflow--test-exec-unit`スキルを使用する
+- 引継ぎファイルを作成するときは、`workflow--common-handoff-format`スキルを使用する
+- テンプレートファイルをもとに成果物ファイルを作成するときは、`workflow--common-design-template-guide`スキルを使用する
 
 # 本エージェントの作業の入力ファイル
 

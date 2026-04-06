@@ -19,12 +19,12 @@ handoffs:
 
 # 本エージェントの必須スキル
 
-- レビュー範囲を確認するときは、`workflow__review-code_scope`スキルを使用する
+- レビュー範囲を確認するときは、`workflow--review-code-scope`スキルを使用する
 - 出力の章立ては [../docs/templates/review-result-template.md](../docs/templates/review-result-template.md) を基準にする。
-- 案件ファイルを配置するときは、`workflow__common_artifact-location`スキルを使用する
-- 成果物ファイルを作成するときは、`workflow__common_output-format`スキルを使用する
-- 引継ぎファイルを作成するときは、`workflow__common_handoff-format`スキルを使用する
-- テンプレートファイルをもとに成果物ファイルを作成するときは、`workflow__common_design-template-guide`スキルを使用する
+- 案件ファイルを配置するときは、`workflow--common-artifact-location`スキルを使用する
+- 成果物ファイルを作成するときは、`workflow--common-output-format`スキルを使用する
+- 引継ぎファイルを作成するときは、`workflow--common-handoff-format`スキルを使用する
+- テンプレートファイルをもとに成果物ファイルを作成するときは、`workflow--common-design-template-guide`スキルを使用する
 
 # 本エージェントの作業の入力ファイル
 
