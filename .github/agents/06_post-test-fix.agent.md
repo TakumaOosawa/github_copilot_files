@@ -6,9 +6,9 @@ tools: [vscode/memory, vscode/askQuestions, read/problems, read/readFile, read/v
 user-invocable: true
 disable-model-invocation: true
 handoffs:
-  - label: 1.レビュー実施に進む
-    agent: 07_review-code
-    prompt: post-test-fix-analysis.md と source-change-02.md を前提にコードレビューを実施してください。
+  - label: 1.再テストに戻る
+    agent: 05_test-exec
+    prompt: post-test-fix-analysis.md と source-change-02.md と post-test-fix-to-test-execution.md を前提に、失敗ケースの再テストと必要な回帰確認を実施してください。
     send: false
 ---
 
@@ -18,7 +18,8 @@ handoffs:
   - 失敗の再現条件を確認してから修正に入る。
   - 表面的な回避でなく、根本原因に対処する。
   - 変更点、原因分析、残留リスク、再テスト推奨箇所を成果物へ残す。
-  - 回帰リスクや設計整合の不安点はレビュー向け handoff に明記する。
+  - 修正後はレビューへ直行せず、再テスト用 handoff を作成して 05_test-exec へ戻す。
+  - 回帰リスクや再テストで重点確認すべき論点は再テスト向け handoff に明記する。
 
 # 本エージェントの必須スキル
 
@@ -46,4 +47,4 @@ handoffs:
 - 原因分析ファイル
   - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/implementation/post-test-fix-analysis.md
 - 引継ぎファイル
-  - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/handoffs/post-test-fix-to-code-review.md
+  - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/handoffs/post-test-fix-to-test-execution.md

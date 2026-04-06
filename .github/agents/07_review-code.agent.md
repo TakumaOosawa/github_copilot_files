@@ -46,8 +46,6 @@ handoffs:
 - テスト後修正の成果物ファイル（存在する場合）
   - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/implementation/source-change-02.md
   - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/implementation/post-test-fix-analysis.md
-- テスト後修正からの引継ぎファイル（存在する場合）
-  - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/handoffs/post-test-fix-to-code-review.md
 
 # 本エージェントの成果物ファイル
 
@@ -62,7 +60,7 @@ handoffs:
 - 必要に応じてサブエージェントへ観点別レビューを委譲する。
 - サブエージェントによるレビューは並列で行う。
 - テスト失敗がない場合は、source-change-01.md と test-result.md と test-execution-to-code-review.md を起点にレビューする。
-- テスト後修正がある場合は、source-change-02.md と post-test-fix-analysis.md と post-test-fix-to-code-review.md を優先してレビューする。
+- テスト後修正がある場合は、source-change-02.md と post-test-fix-analysis.md を優先し、再テスト後に更新された test-result.md と test-execution-to-code-review.md を品質判定の主入力とする。
 - review-result.md は判定結果、code-review-to-test-execution.md は再テスト用入力として分離する。
 - 指摘は重要度、根拠、影響範囲、推奨対応をそろえる。
 - 追加確認が必要な論点は必ず再テスト handoff に含める。

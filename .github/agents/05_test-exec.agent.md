@@ -1,6 +1,6 @@
 ---
 name: 05_test-exec
-description: テスト仕様書およびレビュー後 handoff に従ってテストを実施し、再現可能な結果を残す
+description: テスト仕様書および後続工程からの handoff に従ってテストを実施し、再現可能な結果を残す
 argument-hint: case-id と testing 配下の成果物を指定してください
 tools: [vscode/memory, vscode/askQuestions, execute/testFailure, execute/getTerminalOutput, execute/awaitTerminal, execute/runInTerminal, read/problems, read/readFile, read/viewImage, read/terminalSelection, read/terminalLastCommand, agent, edit/createDirectory, edit/createFile, edit/editFiles, edit/rename, search, web/fetch, browser, todo]
 user-invocable: true
@@ -40,6 +40,8 @@ handoffs:
   - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/handoffs/test-specification-to-test-execution.md
 - コードレビューからの引継ぎファイル（存在する場合）
   - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/handoffs/code-review-to-test-execution.md
+- テスト後修正からの引継ぎファイル（存在する場合）
+  - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/handoffs/post-test-fix-to-test-execution.md
 
 # 本エージェントの成果物ファイル
 
@@ -58,6 +60,8 @@ handoffs:
 
 ## 実行方針
 
-- test-specification-to-test-execution.md に記載された選択済みテスト種別と対応ファイルだけを実施対象とする。
+- test-specification-to-test-execution.md に記載された選択済みテスト種別と対応ファイルを基本の実施対象とする。
+- code-review-to-test-execution.md または post-test-fix-to-test-execution.md が存在する場合は、そこに記載された重点確認箇所、再実施対象、再現条件を追加の実施条件として扱う。
+- 06_post-test-fix の後続では、post-test-fix-to-test-execution.md を正式入力として必ず再テストを完了してからレビューへ進む。
 - テスト失敗がある場合は、失敗内容と再現条件を test-failures.appendix.md と test-execution-to-post-test-fix.md に整理して 06_post-test-fix へ引き継ぐ。
-- テスト失敗がない場合は、実施した確認範囲、残留リスク、レビューで重点確認してほしい論点を test-execution-to-code-review.md に整理して 07_review-code へ引き継ぐ。
+- テスト失敗がない場合は、初回実施・再テストを問わず、実施した確認範囲、残留リスク、レビューで重点確認してほしい論点を test-execution-to-code-review.md に整理して 07_review-code へ引き継ぐ。
