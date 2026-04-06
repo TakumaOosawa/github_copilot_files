@@ -7,7 +7,11 @@ agents: [07-01_review-coding-rules, 07-02_review-design-alignment, 07-03_review-
 user-invocable: true
 disable-model-invocation: true
 handoffs:
-  - label: 1.テスト実施に進む
+  - label: 1.実装に差し戻す
+    agent: 03_implementation
+    prompt: review-result.md と code-review-to-implementation.md を前提に、レビュー指摘へ対応する実装修正を行ってください。
+    send: false
+  - label: 2.テスト実施に進む
     agent: 05_test-exec
     prompt: review-result.md と code-review-to-test-execution.md を前提に、必要な再テストを実施してください。
     send: false
@@ -53,7 +57,9 @@ handoffs:
   - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/review/review-result.md
   - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/review/review-findings.appendix.md
 - 引継ぎファイル
+  - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/handoffs/code-review-to-implementation.md
   - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/handoffs/code-review-to-test-execution.md
+  - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/handoffs/code-review-complete.md
 
 ## 実行方針
 
@@ -62,5 +68,10 @@ handoffs:
 - テスト失敗がない場合は、source-change-01.md と test-result.md と test-execution-to-code-review.md を起点にレビューする。
 - テスト後修正がある場合は、source-change-02.md と post-test-fix-analysis.md を優先し、再テスト後に更新された test-result.md と test-execution-to-code-review.md を品質判定の主入力とする。
 - review-result.md は判定結果、code-review-to-test-execution.md は再テスト用入力として分離する。
+- review-result.md には、修正要否、再テスト要否、次アクション、戻し先工程を整合させて記載する。
+- 修正要否が「要」の場合は、再テスト要否の有無にかかわらず code-review-to-implementation.md を作成し、03_implementation へ差し戻す。
+- 修正要否が「否」かつ再テスト要否が「要」の場合は、code-review-to-test-execution.md を作成し、05_test-exec へ戻す。
+- 修正要否が「否」かつ再テスト要否が「否」の場合は、code-review-complete.md を作成し、レビュー完了として工程を終了する。
+- code-review-to-implementation.md と code-review-to-test-execution.md を同時に正式 handoff として残さない。
 - 指摘は重要度、根拠、影響範囲、推奨対応をそろえる。
 - 追加確認が必要な論点は必ず再テスト handoff に含める。
