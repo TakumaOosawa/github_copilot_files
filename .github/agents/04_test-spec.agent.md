@@ -9,7 +9,7 @@ disable-model-invocation: true
 handoffs:
   - label: 1.テスト実施に進む
     agent: 05_test-exec
-    prompt: ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/handoffs/test-specification-to-test-execution.md に記載された選択済みテスト種別と、outputs/testing 配下に実際に作成された対応テスト仕様書を前提にテストを実施してください。
+    prompt: ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/handoffs/test-specification-to-test-execution.md に記載された選択済みテスト種別を確認し、${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/testing/test-spec-browser.md、${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/testing/test-spec-feature.md、${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/testing/test-spec-unit.md のうち引継ぎファイルで指定された対応テスト仕様書を正式入力としてテストを実施してください。
     send: false
 ---
 

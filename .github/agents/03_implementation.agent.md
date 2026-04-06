@@ -8,7 +8,7 @@ disable-model-invocation: true
 handoffs:
   - label: 1.テスト仕様書作成に進む
     agent: 04_test-spec
-    prompt: ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/implementation/implementation-summary.mdと${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/implementation/source-change-*.mdを前提にテスト仕様書を作成してください。
+    prompt: ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/implementation/implementation-summary.md と ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/implementation/source-change-*.md と ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/handoffs/implementation-to-test-specification.md を前提にテスト仕様書を作成してください。
     send: false
 ---
 

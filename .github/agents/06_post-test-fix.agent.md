@@ -8,7 +8,7 @@ disable-model-invocation: true
 handoffs:
   - label: 1.再テストに戻る
     agent: 05_test-exec
-    prompt: post-test-fix-analysis.md と source-change-02.md と post-test-fix-to-test-execution.md を前提に、失敗ケースの再テストと必要な回帰確認を実施してください。
+    prompt: ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/implementation/post-test-fix-analysis.md と ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/implementation/source-change-02.md と ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/handoffs/post-test-fix-to-test-execution.md を前提に、失敗ケースの再テストと必要な回帰確認を実施してください。
     send: false
 ---
 

@@ -9,11 +9,11 @@ disable-model-invocation: true
 handoffs:
   - label: 1.実装に差し戻す
     agent: 03_implementation
-    prompt: review-result.md と code-review-to-implementation.md を前提に、レビュー指摘へ対応する実装修正を行ってください。
+    prompt: ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/review/review-result.md と ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/handoffs/code-review-to-implementation.md を前提に、レビュー指摘へ対応する実装修正を行ってください。
     send: false
   - label: 2.テスト実施に進む
     agent: 05_test-exec
-    prompt: review-result.md と code-review-to-test-execution.md を前提に、必要な再テストを実施してください。
+    prompt: ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/review/review-result.md と ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/handoffs/code-review-to-test-execution.md を前提に、必要な再テストを実施してください。
     send: false
 ---
 

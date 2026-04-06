@@ -8,11 +8,11 @@ disable-model-invocation: true
 handoffs:
   - label: 1.テスト後修正に進む
     agent: 06_post-test-fix
-    prompt: test-result.md と test-failures.appendix.md を前提に最小十分な修正を行ってください。
+    prompt: ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/testing/test-result.md と ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/testing/test-failures.appendix.md と ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/handoffs/test-execution-to-post-test-fix.md を前提に最小十分な修正を行ってください。
     send: false
   - label: 2.コードレビューに進む
     agent: 07_review-code
-    prompt: test-result.md と test-execution-to-code-review.md を前提にコードレビューを実施してください。
+    prompt: ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/testing/test-result.md と ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/handoffs/test-execution-to-code-review.md を前提にコードレビューを実施してください。
     send: false
 ---
 
