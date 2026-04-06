@@ -45,4 +45,4 @@
 - テスト十分性:
 
 ## 備考
-- 詳細指摘は review-findings.appendix.md に分離する。
+- 詳細指摘は、必要な場合のみ review-result.md に従属する補助明細 review-findings.appendix.md に分離する。

@@ -5,6 +5,8 @@
 - 対象 case-id:
 - 作成工程: コードレビュー
 - 更新日:
+- 親成果物: review-result.md
+- 位置付け: review-result.md の補助明細
 - 参照元:
 
 ## 観点別サマリ

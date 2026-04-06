@@ -43,4 +43,4 @@
 - 優先度:
 
 ## 備考
-- 失敗ケースの詳細は test-failures.appendix.md に分離する。
+- 失敗ケースの詳細は、必要な場合のみ test-result.md に従属する補助明細 test-failures.appendix.md に分離する。

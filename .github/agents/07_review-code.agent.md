@@ -28,7 +28,7 @@ handoffs:
 # 本エージェントの必須スキル
 
 - レビュー範囲を確認するときは、`workflow--review-code-scope`スキルを使用する
-- 出力の章立ては [../docs/templates/review-result-template.md](../docs/templates/review-result-template.md) と [../docs/templates/review-findings-appendix-template.md](../docs/templates/review-findings-appendix-template.md) を基準にする。
+- 出力の章立ては [../docs/templates/review-result-template.md](../docs/templates/review-result-template.md) を基準とし、[../docs/templates/review-findings-appendix-template.md](../docs/templates/review-findings-appendix-template.md) は review-result.md に従属する補助明細が必要な場合のみ使用する。
 - 案件ファイルを配置するときは、`workflow--common-artifact-location`スキルを使用する
 - 成果物ファイルを作成するときは、`workflow--common-output-format`スキルを使用する
 - 引継ぎファイルを作成するときは、`workflow--common-handoff-format`スキルを使用する
@@ -57,9 +57,12 @@ handoffs:
 
 # 本エージェントの成果物ファイル
 
-- レビュー結果ファイル
-  - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/review/review-result.md
-  - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/review/review-findings.appendix.md
+- 正式成果物ファイル
+  - レビュー結果ファイル
+    - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/review/review-result.md
+- 補助明細ファイル（必要な場合のみ。review-result.md に従属する補助明細）
+  - レビュー詳細指摘ファイル
+    - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/review/review-findings.appendix.md
 - 引継ぎファイル
   - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/handoffs/code-review-to-implementation.md
   - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/handoffs/code-review-to-test-specification.md
@@ -69,7 +72,7 @@ handoffs:
 # 本エージェントの成果物テンプレート
 
 - ${workspaceFolder}/.github/docs/templates/review-result-template.md
-- ${workspaceFolder}/.github/docs/templates/review-findings-appendix-template.md
+- ${workspaceFolder}/.github/docs/templates/review-findings-appendix-template.md（review-result.md に従属する補助明細テンプレート）
 
 ## 実行方針
 
@@ -78,6 +81,7 @@ handoffs:
 - テスト失敗がない場合は、source-change-01.md と test-result.md と test-execution-to-code-review.md を起点にレビューする。
 - テスト後修正がある場合は、source-change-02.md と post-test-fix-analysis.md を優先し、再テスト後に更新された test-result.md と test-execution-to-code-review.md を品質判定の主入力とする。
 - review-result.md は判定結果、code-review-to-test-execution.md は再テスト用入力として分離する。
+- review-result.md は正式成果物として判定結果と要点を集約し、詳細指摘が多い場合のみ review-findings.appendix.md を補助明細として併用する。
 - レビューで新しいテスト種別の追加または既存テスト仕様書の拡張が必要と判断した場合は、code-review-to-test-specification.md を作成して 04_test-spec へ戻す。
 - review-result.md には、修正要否、再テスト要否、次アクション、戻し先工程を整合させて記載する。
 - 修正要否が「要」の場合は、再テスト要否の有無にかかわらず code-review-to-implementation.md を作成し、03_implementation へ差し戻す。
