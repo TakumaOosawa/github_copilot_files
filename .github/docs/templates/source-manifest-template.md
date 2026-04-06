@@ -4,8 +4,8 @@
 - 基本設計 md 化で参照する CSV 原本の所在、読み順、注意点を整理する。
 
 ## 配置先
-- cases/<case-id>/sources/basic-design/source-manifest.md
-- 基本設計書 CSV は cases/<case-id>/sources/basic-design/csv/ に配置する。
+- .github/workflow-artifacts/cases/<case-id>/sources/basic-design/source-manifest.md
+- 基本設計書 CSV は .github/workflow-artifacts/cases/<case-id>/sources/basic-design/csv/ に配置する。
 
 ## 記載ルール
 - 元資料情報には元の設計書名、作成元、補足情報を記載する。
