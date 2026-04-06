@@ -1,4 +1,3 @@
----
 name: 05_test-exec
 description: テスト仕様書および後続工程からの handoff に従ってテストを実施し、再現可能な結果を残す
 argument-hint: case-id と testing 配下の成果物を指定してください
@@ -8,7 +7,7 @@ disable-model-invocation: true
 handoffs:
   - label: 1.テスト後修正に進む
     agent: 06_post-test-fix
-    prompt: ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/testing/test-result.md と ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/testing/test-failures.appendix.md と ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/handoffs/test-execution-to-post-test-fix.md を前提に最小十分な修正を行ってください。
+    prompt: ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/testing/test-result.md と ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/handoffs/test-execution-to-post-test-fix.md を前提に最小十分な修正を行ってください。${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/testing/test-failures.appendix.md を作成している場合は、あわせて参照してください。
     send: false
   - label: 2.コードレビューに進む
     agent: 07_review-code
@@ -68,5 +67,5 @@ handoffs:
 - code-review-to-test-execution.md で追加テスト種別が指定されている場合は、対応する test-spec-*.md の存在を確認し、存在するものを追加の実施対象に含める。対応仕様書が存在しない場合は、code-review-to-test-specification.md による仕様追加が必要であることを明示して停止する。
 - 06_post-test-fix の後続では、post-test-fix-to-test-execution.md を正式入力として必ず再テストを完了してからレビューへ進む。
 - test-result.md は正式成果物として合否、総評、修正要否を集約し、詳細明細が必要な場合のみ test-failures.appendix.md を補助明細として併用する。
-- テスト失敗がある場合は、test-result.md に結果要約を記載し、詳細が必要なときは test-result.md に従属する補助明細 test-failures.appendix.md に失敗内容と再現条件を整理し、test-execution-to-post-test-fix.md とあわせて 06_post-test-fix へ引き継ぐ。
+- テスト失敗がある場合は、test-result.md と test-execution-to-post-test-fix.md だけでも 06_post-test-fix が失敗内容と再現条件を追える状態にする。詳細が必要なときのみ、test-result.md に従属する補助明細 test-failures.appendix.md に追加の失敗内容と再現条件を整理して引き継ぐ。
 - テスト失敗がない場合は、初回実施・再テストを問わず、実施した確認範囲、残留リスク、レビューで重点確認してほしい論点を test-execution-to-code-review.md に整理して 07_review-code へ引き継ぐ。

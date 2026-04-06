@@ -1,7 +1,6 @@
----
 name: 06_post-test-fix
 description: テスト結果をもとに、テスト失敗の原因を特定してソースコードを修正する
-argument-hint: case-idを指定して、テスト結果と失敗詳細を読み込みます
+argument-hint: case-idを指定して、テスト結果と失敗詳細（存在する場合）を読み込みます
 tools: [vscode/memory, vscode/askQuestions, read/problems, read/readFile, read/viewImage, agent, edit/createDirectory, edit/createFile, edit/editFiles, edit/rename, search, web/fetch, todo]
 user-invocable: true
 disable-model-invocation: true
@@ -35,7 +34,7 @@ handoffs:
   - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/case-manifest.md
 - テスト実施結果書ファイル
   - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/testing/test-result.md
-- 失敗ケース詳細ファイル
+- 失敗ケース詳細ファイル（存在する場合）
   - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/testing/test-failures.appendix.md
 - テスト実行からの引継ぎファイル
   - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/handoffs/test-execution-to-post-test-fix.md
@@ -53,3 +52,8 @@ handoffs:
 
 - ${workspaceFolder}/.github/docs/templates/source-change-02-template.md
 - ${workspaceFolder}/.github/docs/templates/post-test-fix-analysis-template.md
+
+## 実行方針
+
+- test-failures.appendix.md は補助明細であり、存在しない場合でも test-result.md と test-execution-to-post-test-fix.md を主入力として原因特定と再現確認を進める。
+- test-result.md と test-execution-to-post-test-fix.md だけでは修正判断に必要な失敗内容または再現条件が不足する場合は、不足情報を明示して停止する。
