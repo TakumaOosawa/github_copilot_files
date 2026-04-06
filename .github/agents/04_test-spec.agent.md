@@ -1,7 +1,7 @@
 ---
 name: 04_test-spec
-description: 基本設計書・詳細設計書から、選択されたテスト種別のテスト仕様書を作成する
-argument-hint: case-idを指定して、作成対象のテスト仕様書種別（ブラウザテスト / Featureテスト / Unitテスト、複数選択可）を確認してから基本設計書・詳細設計書を読み込みます
+description: 基本設計書・詳細設計書とレビュー指摘から、必要なテスト種別のテスト仕様書を作成・更新する
+argument-hint: case-idを指定して、初回作成かレビュー起因の追加作成かを確認したうえで、対象のテスト種別（ブラウザテスト / Featureテスト / Unitテスト、複数選択可）を決定します
 tools: [vscode/memory, vscode/askQuestions, read/problems, read/readFile, read/viewImage, agent, edit/createDirectory, edit/createFile, edit/editFiles, edit/rename, search, web/fetch, todo]
 agents: [04-01_test-spec-browser, 04-02_test-spec-feature, 04-03_test-spec-unit]
 user-invocable: true
@@ -9,13 +9,13 @@ disable-model-invocation: true
 handoffs:
   - label: 1.テスト実施に進む
     agent: 05_test-exec
-    prompt: ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/handoffs/test-specification-to-test-execution.md に記載された選択済みテスト種別を確認し、${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/testing/test-spec-browser.md、${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/testing/test-spec-feature.md、${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/testing/test-spec-unit.md のうち引継ぎファイルで指定された対応テスト仕様書を正式入力としてテストを実施してください。
+    prompt: ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/handoffs/test-specification-to-test-execution.md に記載された実施対象テスト種別を確認し、${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/testing/test-spec-browser.md、${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/testing/test-spec-feature.md、${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/testing/test-spec-unit.md のうち引継ぎファイルで指定された対応テスト仕様書を正式入力としてテストを実施してください。
     send: false
 ---
 
 # 本エージェントの役割
 
-- 基本設計書・詳細設計書から、ユーザーが選択したテスト種別のテスト仕様書を作成する
+- 基本設計書・詳細設計書と、レビューで追加要求が出た場合の指摘内容から、必要なテスト種別のテスト仕様書を作成・更新する
 
 # 本エージェントの必須スキル
 
@@ -40,14 +40,25 @@ handoffs:
   - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/implementation/source-change-01.md
 - 引継ぎファイル
   - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/handoffs/implementation-to-test-specification.md
+- 既存のテスト仕様引継ぎファイル（存在する場合）
+  - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/handoffs/test-specification-to-test-execution.md
+- 既存のテスト仕様書ファイル（存在する場合）
+  - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/testing/test-spec-browser.md
+  - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/testing/test-spec-feature.md
+  - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/testing/test-spec-unit.md
+- コードレビュー結果ファイル（存在する場合）
+  - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/review/review-result.md
+- コードレビューからの引継ぎファイル（存在する場合）
+  - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/handoffs/code-review-to-test-specification.md
 
 # 本エージェントの開始条件
 
 - 作業開始時に case-id を確認し、正式入力の存在を確認する
-- テスト仕様書の作成対象について、ブラウザテスト / Featureテスト / Unitテストから複数選択可でユーザーに質問する
-- 1 件も選択されていない場合は、最低 1 つのテスト種別を選択する必要があることを明示して停止する
-- 選択されたテスト種別だけを成果物作成、サブエージェント委譲、引継ぎ対象に含める
-- ユーザーが選択したテスト種別は test-specification-to-test-execution.md に明記し、後続工程が参照できるようにする
+- implementation-to-test-specification.md から開始する場合は、テスト仕様書の作成対象について、ブラウザテスト / Featureテスト / Unitテストから複数選択可でユーザーに質問する
+- code-review-to-test-specification.md から開始する場合は、レビューで追加または更新が必要とされたテスト種別を今回の対象として扱い、記載が曖昧な場合だけユーザーに確認する
+- 1 件も対象テスト種別が確定しない場合は、最低 1 つのテスト種別を決定する必要があることを明示して停止する
+- 今回の対象テスト種別だけを成果物作成とサブエージェント委譲の対象に含める
+- test-specification-to-test-execution.md には、この時点で実施対象とするテスト種別を明記し、レビュー起因で追加した種別がある場合は既存の実施対象を残したまま追記する
 
 # 本エージェントの成果物ファイル
 
@@ -68,9 +79,10 @@ handoffs:
 
 ## 実行方針
 
-- 必要に応じて、ユーザーが選択したテスト種別に対応するサブエージェントへだけ仕様作成を委譲する。
-- 選択された複数のテスト種別については、サブエージェントによる仕様検討を並列で行う。
+- 必要に応じて、今回の対象テスト種別に対応するサブエージェントへだけ仕様作成を委譲する。
+- 複数の対象テスト種別については、サブエージェントによる仕様検討を並列で行う。
 - サブエージェントは観点別のケース案、前提条件、期待結果を返し、親エージェントが成果物ファイルへ反映する。
-- 選択されたテスト種別どうしの重複と抜け漏れは親エージェントで統合して調整する。
-- 選択されなかったテスト種別の仕様書は新規作成・更新しない。
-- test-specification-to-test-execution.md には、選択されたテスト種別、対応する仕様書ファイル、実施順、注意点、前提データを集約する。
+- 今回の対象テスト種別どうしの重複と抜け漏れは親エージェントで統合して調整する。
+- 今回の対象外で、レビューから追加要求もないテスト種別の仕様書は新規作成・更新しない。
+- code-review-to-test-specification.md からの再入場では、既存の test-specification-to-test-execution.md と既存仕様書を参照し、既存の実施対象を維持したまま追加・更新対象だけを反映する。
+- test-specification-to-test-execution.md には、この時点で実施対象となるテスト種別、対応する仕様書ファイル、実施順、注意点、前提データを集約する。

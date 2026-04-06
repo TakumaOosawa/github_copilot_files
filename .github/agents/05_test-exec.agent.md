@@ -60,8 +60,9 @@ handoffs:
 
 ## 実行方針
 
-- test-specification-to-test-execution.md に記載された選択済みテスト種別と対応ファイルを基本の実施対象とする。
-- code-review-to-test-execution.md または post-test-fix-to-test-execution.md が存在する場合は、そこに記載された重点確認箇所、再実施対象、再現条件を追加の実施条件として扱う。
+- test-specification-to-test-execution.md に記載された実施対象テスト種別と対応ファイルを基本の実施対象とする。
+- code-review-to-test-execution.md または post-test-fix-to-test-execution.md が存在する場合は、そこに記載された追加テスト種別、重点確認箇所、再実施対象、再現条件を追加の実施条件として扱う。
+- code-review-to-test-execution.md で追加テスト種別が指定されている場合は、対応する test-spec-*.md の存在を確認し、存在するものを追加の実施対象に含める。対応仕様書が存在しない場合は、code-review-to-test-specification.md による仕様追加が必要であることを明示して停止する。
 - 06_post-test-fix の後続では、post-test-fix-to-test-execution.md を正式入力として必ず再テストを完了してからレビューへ進む。
 - テスト失敗がある場合は、失敗内容と再現条件を test-failures.appendix.md と test-execution-to-post-test-fix.md に整理して 06_post-test-fix へ引き継ぐ。
 - テスト失敗がない場合は、初回実施・再テストを問わず、実施した確認範囲、残留リスク、レビューで重点確認してほしい論点を test-execution-to-code-review.md に整理して 07_review-code へ引き継ぐ。
