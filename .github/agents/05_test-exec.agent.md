@@ -11,7 +11,7 @@ handoffs:
     send: false
   - label: 2.コードレビューに進む
     agent: 07_review-code
-    prompt: ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/testing/test-result.md と ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/handoffs/test-execution-to-code-review.md を前提にコードレビューを実施してください。
+    prompt: ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/testing/test-result.md と ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/handoffs/test-execution-to-code-review.md を前提に、${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/testing/test-spec-browser.md、${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/testing/test-spec-feature.md、${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/testing/test-spec-unit.md のうち test-execution-to-code-review.md の参照元成果物に記載されたテスト仕様書を正式入力としてコードレビューを実施してください。
     send: false
 ---
 
@@ -68,4 +68,4 @@ handoffs:
 - 06_post-test-fix の後続では、post-test-fix-to-test-execution.md を正式入力として必ず再テストを完了してからレビューへ進む。
 - test-result.md は正式成果物として合否、総評、修正要否を集約し、詳細明細が必要な場合のみ test-failures.appendix.md を補助明細として併用する。
 - テスト失敗がある場合は、test-result.md と test-execution-to-post-test-fix.md だけでも 06_post-test-fix が失敗内容と再現条件を追える状態にする。詳細が必要なときのみ、test-result.md に従属する補助明細 test-failures.appendix.md に追加の失敗内容と再現条件を整理して引き継ぐ。
-- テスト失敗がない場合は、初回実施・再テストを問わず、実施した確認範囲、残留リスク、レビューで重点確認してほしい論点を test-execution-to-code-review.md に整理して 07_review-code へ引き継ぐ。
+- テスト失敗がない場合は、初回実施・再テストを問わず、実施した確認範囲、参照した test-spec-*.md、残留リスク、レビューで重点確認してほしい論点を、各確認観点と対応づく形で test-execution-to-code-review.md に整理して 07_review-code へ引き継ぐ。

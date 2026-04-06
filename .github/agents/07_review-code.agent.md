@@ -1,7 +1,7 @@
 ---
 name: 07_review-code
 description: 設計整合、規約、セキュリティ、副作用、回帰、テスト十分性まで含めて総合レビューする
-argument-hint: case-idを指定して、設計、実装変更、テスト結果を読み込みます
+argument-hint: case-idを指定して、設計、実装変更、テスト仕様、テスト結果を読み込みます
 tools: [vscode/memory, vscode/askQuestions, read/problems, read/readFile, read/viewImage, agent, edit/createDirectory, edit/createFile, edit/editFiles, edit/rename, search, web/fetch, todo]
 agents: [07-01_review-coding-rules, 07-02_review-design-alignment, 07-03_review-laravel-structure, 07-04_review-regression, 07-05_review-security, 07-06_review-test-adequacy]
 user-invocable: true
@@ -45,6 +45,10 @@ handoffs:
 - 初回実装の成果物ファイル
   - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/implementation/implementation-summary.md
   - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/implementation/source-change-01.md
+- テスト仕様書ファイル（存在する場合）
+  - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/testing/test-spec-browser.md
+  - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/testing/test-spec-feature.md
+  - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/testing/test-spec-unit.md
 - テスト実施の成果物ファイル
   - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/testing/test-result.md
 - 失敗ケース詳細ファイル（存在する場合）
@@ -78,8 +82,10 @@ handoffs:
 
 - 必要に応じてサブエージェントへ観点別レビューを委譲する。
 - サブエージェントによるレビューは並列で行う。
-- テスト失敗がない場合は、source-change-01.md と test-result.md と test-execution-to-code-review.md を起点にレビューする。
-- テスト後修正がある場合は、source-change-02.md と post-test-fix-analysis.md を優先し、再テスト後に更新された test-result.md と test-execution-to-code-review.md を品質判定の主入力とする。
+- テスト失敗がない場合は、source-change-01.md と test-result.md と test-execution-to-code-review.md と、その参照元成果物に記載された test-spec-*.md を起点にレビューする。
+- テスト後修正がある場合は、source-change-02.md と post-test-fix-analysis.md を優先し、再テスト後に更新された test-result.md と test-execution-to-code-review.md と、その参照元成果物に記載された test-spec-*.md を品質判定の主入力とする。
+- テスト十分性は、test-execution-to-code-review.md に記載された参照テスト仕様書と test-result.md を突合し、仕様上の確認観点と実施結果の対応が追えるかを確認する。
+- 07-06_review-test-adequacy へ委譲する場合は、test-result.md と test-execution-to-code-review.md に加えて、その参照元成果物に記載された test-spec-*.md を渡す。
 - review-result.md は判定結果、code-review-to-test-execution.md は再テスト用入力として分離する。
 - review-result.md は正式成果物として判定結果と要点を集約し、詳細指摘が多い場合のみ review-findings.appendix.md を補助明細として併用する。
 - レビューで新しいテスト種別の追加または既存テスト仕様書の拡張が必要と判断した場合は、code-review-to-test-specification.md を作成して 04_test-spec へ戻す。
