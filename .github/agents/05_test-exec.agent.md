@@ -29,6 +29,8 @@ handoffs:
 
 # 本エージェントの作業の入力ファイル
 
+- 案件管理ファイル
+  - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/case-manifest.md
 - ブラウザテスト仕様書ファイル（選択されている場合）
   - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/testing/test-spec-browser.md
 - Featureテスト仕様書ファイル（選択されている場合）
@@ -41,6 +43,11 @@ handoffs:
   - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/handoffs/code-review-to-test-execution.md
 - テスト後修正からの引継ぎファイル（存在する場合）
   - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/handoffs/post-test-fix-to-test-execution.md
+
+# 本エージェントの開始条件
+
+- 作業開始時に case-id を確認し、正式入力の存在を確認する
+- case-manifest.md を確認し、今回のテスト実施と引継ぎファイル作成に伴って現在工程、入力状況、成果物状況に変更がある場合のみ更新を反映する
 
 # 本エージェントの成果物ファイル
 

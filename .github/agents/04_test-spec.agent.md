@@ -30,6 +30,8 @@ handoffs:
 
 # 本エージェントの作業の入力ファイル
 
+- 案件管理ファイル
+  - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/case-manifest.md
 - 基本設計書ファイル
   - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/basic-design/basic-design.md
 - 詳細設計書ファイル
@@ -54,6 +56,7 @@ handoffs:
 # 本エージェントの開始条件
 
 - 作業開始時に case-id を確認し、正式入力の存在を確認する
+- case-manifest.md を確認し、今回のテスト仕様書作成・更新に伴って現在工程、入力状況、成果物状況に変更がある場合のみ更新を反映する
 - implementation-to-test-specification.md から開始する場合は、テスト仕様書の作成対象について、ブラウザテスト / Featureテスト / Unitテストから複数選択可でユーザーに質問する
 - code-review-to-test-specification.md から開始する場合は、レビューで追加または更新が必要とされたテスト種別を今回の対象として扱い、記載が曖昧な場合だけユーザーに確認する
 - 1 件も対象テスト種別が確定しない場合は、最低 1 つのテスト種別を決定する必要があることを明示して停止する
