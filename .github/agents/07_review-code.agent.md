@@ -42,9 +42,10 @@ handoffs:
   - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/basic-design/basic-design.md
 - 詳細設計ファイル
   - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/detailed-design/detailed-design.md
-- 初回実装の成果物ファイル
+- 実装変更履歴ファイル（1 件以上）
+  - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/implementation/source-change-*.md
+- 実装成果物ファイル
   - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/implementation/implementation-summary.md
-  - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/implementation/source-change-01.md
 - テスト仕様書ファイル（存在する場合）
   - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/testing/test-spec-browser.md
   - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/testing/test-spec-feature.md
@@ -55,9 +56,8 @@ handoffs:
   - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/testing/test-failures.appendix.md
 - テスト実施からの引継ぎファイル（テスト失敗がない場合）
   - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/handoffs/test-execution-to-code-review.md
-- テスト後修正の成果物ファイル（存在する場合）
-  - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/implementation/source-change-02.md
-  - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/implementation/post-test-fix-analysis.md
+- テスト後修正の分析ファイル（存在する場合）
+  - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/implementation/post-test-fix-analysis-*.md
 
 # 本エージェントの成果物ファイル
 
@@ -82,8 +82,10 @@ handoffs:
 
 - 必要に応じてサブエージェントへ観点別レビューを委譲する。
 - サブエージェントによるレビューは並列で行う。
-- テスト失敗がない場合は、source-change-01.md と test-result.md と test-execution-to-code-review.md と、その参照元成果物に記載された test-spec-*.md を起点にレビューする。
-- テスト後修正がある場合は、source-change-02.md と post-test-fix-analysis.md を優先し、再テスト後に更新された test-result.md と test-execution-to-code-review.md と、その参照元成果物に記載された test-spec-*.md を品質判定の主入力とする。
+- source-change-*.md が複数ある場合は、最新連番の source-change-N.md を主入力とし、過去の source-change-*.md は累積変更履歴の確認に用いる。
+- post-test-fix-analysis-*.md が存在する場合は、source-change-*.md のうち同じ連番を持つ対応修正として扱い、最新の対応組を優先しつつ、過去の post-test-fix-analysis-*.md は経緯確認用の履歴として参照する。
+- テスト失敗がない場合は、最新の source-change-N.md と test-result.md と test-execution-to-code-review.md と、その参照元成果物に記載された test-spec-*.md を起点にレビューする。
+- 直近の修正が 06_post-test-fix である場合は、最新の対応組である source-change-N.md と post-test-fix-analysis-N.md を優先し、再テスト後に更新された test-result.md と test-execution-to-code-review.md と、その参照元成果物に記載された test-spec-*.md を品質判定の主入力とする。
 - テスト十分性は、test-execution-to-code-review.md に記載された参照テスト仕様書と test-result.md を突合し、仕様上の確認観点と実施結果の対応が追えるかを確認する。
 - 07-06_review-test-adequacy へ委譲する場合は、test-result.md と test-execution-to-code-review.md に加えて、その参照元成果物に記載された test-spec-*.md を渡す。
 - review-result.md は判定結果、code-review-to-test-execution.md は再テスト用入力として分離する。

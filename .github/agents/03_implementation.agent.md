@@ -35,6 +35,8 @@ handoffs:
   - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/detailed-design/detailed-design.md
 - 初回実装の引継ぎファイル
   - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/handoffs/detailed-design-to-implementation.md
+- 既存の変更履歴ファイル（存在する場合）
+  - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/implementation/source-change-*.md
 - レビュー差戻し時の入力ファイル
   - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/review/review-result.md
   - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/handoffs/code-review-to-implementation.md
@@ -55,7 +57,7 @@ handoffs:
 - 実装要約ファイル
   - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/implementation/implementation-summary.md
 - 変更一覧ファイル
-  - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/implementation/source-change-01.md
+  - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/implementation/source-change-N.md（初回実装は 01、以降は既存の最大連番 + 1 を 2 桁で採番）
 - 引継ぎファイル
   - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/handoffs/implementation-to-test-specification.md
 
@@ -64,6 +66,13 @@ handoffs:
 - ${workspaceFolder}/.github/docs/templates/implementation-summary-template.md
 - ${workspaceFolder}/.github/docs/templates/source-change-01-template.md
 
+## 実行方針
+
+- source-change-N.md は実装変更履歴の正式成果物とし、初回実装では source-change-01.md を作成する。
+- 03_implementation が再入場した場合は、既存の source-change-*.md を確認し、未使用の次連番 N を採番した source-change-N.md を新規作成する。
+- 既存の source-change-*.md は履歴として保持し、上書きしない。
+- implementation-summary.md と implementation-to-test-specification.md には、今回追加した最新の source-change-N.md を参照できる状態を保つ。
+
 # 本エージェントの禁止事項
 
 - 詳細設計を無視して実装を進めること
@@ -71,4 +80,5 @@ handoffs:
 - 詳細設計書ファイルが無い状態で、基本設計書や推測だけを根拠に実装すること
 - レビュー差戻し時に review-result.md と code-review-to-implementation.md を確認せずに指摘対応を進めること
 - 設計差分を記録せずに振る舞いを変えること
+- 既存の source-change-*.md を上書きして変更履歴を失うこと
 - 成果物を残さずに工程完了とすること

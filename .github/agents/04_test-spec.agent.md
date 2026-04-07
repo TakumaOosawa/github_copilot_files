@@ -38,8 +38,8 @@ handoffs:
   - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/detailed-design/detailed-design.md
 - 実装サマリファイル
   - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/implementation/implementation-summary.md
-- 変更内容ファイル
-  - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/implementation/source-change-01.md
+- 変更内容ファイル（1 件以上）
+  - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/implementation/source-change-*.md
 - 引継ぎファイル
   - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/handoffs/implementation-to-test-specification.md
 - 既存のテスト仕様引継ぎファイル（存在する場合）
@@ -88,4 +88,5 @@ handoffs:
 - 今回の対象テスト種別どうしの重複と抜け漏れは親エージェントで統合して調整する。
 - 今回の対象外で、レビューから追加要求もないテスト種別の仕様書は新規作成・更新しない。
 - code-review-to-test-specification.md からの再入場では、既存の test-specification-to-test-execution.md と既存仕様書を参照し、既存の実施対象を維持したまま追加・更新対象だけを反映する。
+- source-change-*.md が複数ある場合は、最新連番の source-change-N.md を主参照とし、過去の source-change-*.md は変更履歴の補助参照として扱う。
 - test-specification-to-test-execution.md には、この時点で実施対象となるテスト種別、対応する仕様書ファイル、実施順、注意点、前提データを集約する。
