@@ -1,6 +1,6 @@
 ---
 name: 07-03_review-laravel-structure
-description: Laravel の Route、Middleware、Controller、Request、Service、Repository の責務配置を確認するレビュー補助エージェント
+description: Laravel の Route、Middleware、Controller、Request、Service、Repository、Model、View の責務配置を確認するレビュー補助エージェント
 argument-hint: Laravel の責務配置を確認したい変更対象を指定してください
 tools:
   - search
