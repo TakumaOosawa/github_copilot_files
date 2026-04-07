@@ -8,7 +8,7 @@ disable-model-invocation: true
 handoffs:
   - label: 1.テスト仕様書作成に進む
     agent: 04_test-spec
-    prompt: ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/implementation/implementation-summary.md と ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/implementation/source-change-*.md と ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/handoffs/implementation-to-test-specification.md を前提にテスト仕様書を作成してください。
+    prompt: ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/implementation/implementation-summary.md と ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/implementation/source-change-*.md と ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/handoffs/implementation-to-test-specification.md を前提に、implementation-summary.md と implementation-to-test-specification.md に記載されたブラウザテスト / Featureテスト / Unitテストの対象・非対象・要確認の判断と理由を確認したうえでテスト仕様書を作成してください。
     send: false
 ---
 
@@ -72,6 +72,8 @@ handoffs:
 - 03_implementation が再入場した場合は、既存の source-change-*.md を確認し、未使用の次連番 N を採番した source-change-N.md を新規作成する。
 - 既存の source-change-*.md は履歴として保持し、上書きしない。
 - implementation-summary.md と implementation-to-test-specification.md には、今回追加した最新の source-change-N.md を参照できる状態を保つ。
+- implementation-summary.md の「テスト仕様への引継ぎ」には、ブラウザテスト / Featureテスト / Unitテストの各種別について、対象・非対象・要確認の別とその理由を必ず記載する。
+- implementation-to-test-specification.md には、今回対象とするテスト種別、対象外とするテスト種別、要確認のまま次工程へ判断を委ねるテスト種別を区別して記載し、それぞれの理由と根拠となる変更内容を明記する。
 
 # 本エージェントの禁止事項
 
