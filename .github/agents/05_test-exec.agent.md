@@ -1,3 +1,4 @@
+---
 name: 05_test-exec
 description: テスト仕様書および後続工程からの handoff に従ってテストを実施し、再現可能な結果を残す
 argument-hint: case-id と testing 配下の成果物を指定してください
