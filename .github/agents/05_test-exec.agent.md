@@ -6,12 +6,12 @@ tools: [vscode/memory, vscode/askQuestions, execute/testFailure, execute/getTerm
 user-invocable: true
 disable-model-invocation: true
 handoffs:
-  - label: 1.テスト後修正に進む
-    agent: 06_post-test-fix
-    prompt: ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/testing/test-result.md と ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/handoffs/test-execution-to-post-test-fix.md を前提に最小十分な修正を行ってください。${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/testing/test-failures.appendix.md を作成している場合は、あわせて参照してください。
+  - label: 1.実装に差し戻す
+    agent: 03_implementation
+    prompt: ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/detailed-design/detailed-design.md と ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/handoffs/detailed-design-to-implementation.md と ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/testing/test-result.md と ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/handoffs/test-execution-to-implementation.md を前提に、テスト失敗の原因へ対応する実装修正を行ってください。${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/testing/test-failures.appendix.md を作成している場合は、あわせて参照してください。
     send: false
   - label: 2.コードレビューに進む
-    agent: 07_review-code
+    agent: 06_review-code
     prompt: ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/testing/test-result.md と ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/handoffs/test-execution-to-code-review.md を前提に、${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/testing/test-spec-browser.md、${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/testing/test-spec-feature.md、${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/testing/test-spec-unit.md のうち test-execution-to-code-review.md の参照元成果物に記載されたテスト仕様書を正式入力としてコードレビューを実施してください。
     send: false
 ---
@@ -42,8 +42,6 @@ handoffs:
   - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/handoffs/test-specification-to-test-execution.md
 - コードレビューからの引継ぎファイル（存在する場合）
   - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/handoffs/code-review-to-test-execution.md
-- テスト後修正からの引継ぎファイル（存在する場合）
-  - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/handoffs/post-test-fix-to-test-execution.md
 
 # 本エージェントの開始条件
 
@@ -59,7 +57,7 @@ handoffs:
   - 失敗ケース詳細ファイル
     - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/testing/test-failures.appendix.md
 - 引継ぎファイル（テスト失敗がある場合）
-  - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/handoffs/test-execution-to-post-test-fix.md
+  - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/handoffs/test-execution-to-implementation.md
 - 引継ぎファイル（テスト失敗がない場合）
   - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/handoffs/test-execution-to-code-review.md
 
@@ -71,9 +69,9 @@ handoffs:
 ## 実行方針
 
 - test-specification-to-test-execution.md に記載された実施対象テスト種別と対応ファイルを基本の実施対象とする。
-- code-review-to-test-execution.md または post-test-fix-to-test-execution.md が存在する場合は、そこに記載された追加テスト種別、重点確認箇所、再実施対象、再現条件を追加の実施条件として扱う。
+- code-review-to-test-execution.md が存在する場合は、そこに記載された追加テスト種別、重点確認箇所、再実施対象、再現条件を追加の実施条件として扱う。
 - code-review-to-test-execution.md で追加テスト種別が指定されている場合は、対応する test-spec-*.md の存在を確認し、存在するものを追加の実施対象に含める。対応仕様書が存在しない場合は、code-review-to-test-specification.md による仕様追加が必要であることを明示して停止する。
-- 06_post-test-fix の後続では、post-test-fix-to-test-execution.md を正式入力として必ず再テストを完了してからレビューへ進む。
 - test-result.md は正式成果物として合否、総評、修正要否を集約し、詳細明細が必要な場合のみ test-failures.appendix.md を補助明細として併用する。
-- テスト失敗がある場合は、test-result.md と test-execution-to-post-test-fix.md だけでも 06_post-test-fix が失敗内容と再現条件を追える状態にする。詳細が必要なときのみ、test-result.md に従属する補助明細 test-failures.appendix.md に追加の失敗内容と再現条件を整理して引き継ぐ。
-- テスト失敗がない場合は、初回実施・再テストを問わず、実施した確認範囲、参照した test-spec-*.md、残留リスク、レビューで重点確認してほしい論点を、各確認観点と対応づく形で test-execution-to-code-review.md に整理して 07_review-code へ引き継ぐ。
+- テスト失敗がある場合は、test-result.md と test-execution-to-implementation.md だけでも 03_implementation が失敗内容と再現条件を追える状態にする。詳細が必要なときのみ、test-result.md に従属する補助明細 test-failures.appendix.md に追加の失敗内容と再現条件を整理して引き継ぐ。
+- テスト失敗がある場合の修正は 03_implementation に戻し、再テスト対象は 03_implementation で更新された implementation-summary.md と implementation-to-test-specification.md を起点に 04_test-spec で再確定する。
+- テスト失敗がない場合は、初回実施・再テストを問わず、実施した確認範囲、参照した test-spec-*.md、残留リスク、レビューで重点確認してほしい論点を、各確認観点と対応づく形で test-execution-to-code-review.md に整理して 06_review-code へ引き継ぐ。

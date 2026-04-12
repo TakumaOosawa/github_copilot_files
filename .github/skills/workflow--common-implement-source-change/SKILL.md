@@ -8,7 +8,7 @@ description: source-change-N.md を作成するときの採番、テンプレー
 ## このスキルを使う場面
 
 - 03_implementation で source-change-N.md を新規作成するとき
-- 06_post-test-fix で source-change-N.md を新規作成するとき
+- 03_implementation でテスト実施差し戻し対応として source-change-N.md を新規作成するとき
 - 既存の source-change-*.md を確認して今回の N を決めるとき
 
 ## 保存先
@@ -23,13 +23,13 @@ description: source-change-N.md を作成するときの採番、テンプレー
 - N は 2 桁の連番で採番する。
 - 既存の source-change-*.md が存在しない場合は 01 を使用する。
 - 既存の source-change-*.md が存在する場合は、既存の最大連番 + 1 を未使用の次連番として採番する。
-- 06_post-test-fix では N を 02 固定にせず、既存の source-change-*.md を確認して今回の N を決める。
-- 06_post-test-fix で post-test-fix-analysis-N.md を同一ループで作成する場合は、source-change-N.md と同じ N を使用する。
+- 03_implementation が test-execution-to-implementation.md を正式入力として着手する場合も、N を 02 固定にせず、既存の source-change-*.md を確認して今回の N を決める。
+- 03_implementation が test-execution-fix-analysis-N.md を同一ループで作成する場合は、source-change-N.md と同じ N を使用する。
 
 ## テンプレート選択
 
-- 03_implementation では `.github/docs/templates/source-change-01-template.md` を使用する。
-- 06_post-test-fix では `.github/docs/templates/source-change-02-template.md` を使用する。
+- 03_implementation が詳細設計またはレビュー差し戻しを正式入力として着手する場合は `.github/docs/templates/source-change-01-template.md` を使用する。
+- 03_implementation が test-execution-to-implementation.md を正式入力として着手する場合は `.github/docs/templates/source-change-02-template.md` を使用する。
 - テンプレートの見出し構造は維持し、source-change-N.md の運用ルールはこのスキルを正とする。
 
 ## 記載時の注意
@@ -44,4 +44,4 @@ description: source-change-N.md を作成するときの採番、テンプレー
 ## 関連成果物との整合
 
 - 03_implementation では、今回追加した最新の source-change-N.md を同工程で更新する関連成果物から参照できる状態を保つ。
-- 06_post-test-fix では post-test-fix-to-test-execution.md から、今回追加した最新の source-change-N.md と対応する post-test-fix-analysis-N.md を参照できる状態を保つ。
+- 03_implementation が test-execution-to-implementation.md を正式入力として着手した場合は、implementation-summary.md と implementation-to-test-specification.md から、今回追加した最新の source-change-N.md と必要に応じて対応する test-execution-fix-analysis-N.md を追える状態を保つ。

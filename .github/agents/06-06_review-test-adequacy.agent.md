@@ -1,5 +1,5 @@
 ---
-name: 07-06_review-test-adequacy
+name: 06-06_review-test-adequacy
 description: テスト仕様とテスト結果が変更内容に対して十分かを確認するレビュー補助エージェント
 argument-hint: テスト仕様、実施結果、取りこぼしがないか確認したい対象を指定してください
 tools:

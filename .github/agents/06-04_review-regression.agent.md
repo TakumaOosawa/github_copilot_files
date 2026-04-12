@@ -1,5 +1,5 @@
 ---
-name: 07-04_review-regression
+name: 06-04_review-regression
 description: 副作用、影響範囲、回帰リスクを確認するレビュー補助エージェント
 argument-hint: 回帰や副作用の懸念がある変更対象を指定してください
 tools:
