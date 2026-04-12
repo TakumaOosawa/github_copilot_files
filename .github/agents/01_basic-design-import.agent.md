@@ -8,7 +8,7 @@ disable-model-invocation: true
 handoffs:
   - label: 1.詳細設計作成に進む
     agent: 02_detailed-design
-    prompt: ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/basic-design/basic-design.md と ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/handoffs/basic-design-to-detailed-design.md をもとに、詳細設計を作成してください。
+    prompt: 01_basic-design-importエージェントから作業を引継ぎます。${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/basic-design/basic-design.md と ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/handoffs/basic-design-to-detailed-design.md をもとに、詳細設計を作成してください。
   - label: 2.案件初期化に戻る
     agent: 00_case-init
     prompt: 案件ディレクトリの内容を初期化してください。
@@ -20,7 +20,7 @@ handoffs:
 - CSV形式の基本設計書をテンプレートに従ってMarkdownファイルに変換する
   - ユーザーと複数回対話しながら、成果物を作成して品質を高める。#tool:vscode/askQuestions を使用して、曖昧な点をユーザーに確認して進める。
 
-# 本エージェントの必須スキル
+# 本エージェントで使用するスキル
 
 - 案件ファイルを配置するときは、`workflow--common-artifact-location`スキルを使用する
 - 基本設計書CSVをMarkdownに変換するときは、`workflow--basic-design-fidelity`スキルを使用する
@@ -38,7 +38,7 @@ handoffs:
 - 基本設計書CSVファイル群
   - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/sources/basic-design/csv/*.csv
 
-# 本エージェントの成果物ファイル
+# 本エージェントの成果物
 
 - 基本設計書Markdownファイル群
   - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/basic-design/markdown/*.md

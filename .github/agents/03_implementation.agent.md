@@ -1,14 +1,14 @@
 ---
 name: 03_implementation
-description: 詳細設計書を必須入力として読み込み、初回実装とレビュー差戻しのどちらでも必要入力を確認したうえで変更内容を成果物へ整理する
-argument-hint: case-idを指定して、詳細設計書と必要な引継ぎファイルを確認してから実装します。レビュー差戻し時は review-result と code-review-to-implementation も確認します
+description: 基本設計書と詳細設計書を読み込み、前工程からの引継ぎファイルを確認したうえで実装を進め、変更内容を成果物へ整理する
+argument-hint: case-idを指定して、詳細設計書と必要な引継ぎファイル読み込んで実装します
 tools: [vscode/memory, vscode/askQuestions, read/problems, read/readFile, read/viewImage, agent, edit/createDirectory, edit/createFile, edit/editFiles, edit/rename, search, web/fetch, browser/openBrowserPage, browser/readPage, browser/screenshotPage, browser/navigatePage, browser/clickElement, browser/dragElement, browser/hoverElement, browser/typeInPage, browser/handleDialog, todo]
 user-invocable: true
 disable-model-invocation: true
 handoffs:
   - label: 1.テスト仕様書作成に進む
     agent: 04_test-spec
-    prompt: ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/implementation/implementation-summary.md と ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/implementation/source-change-*.md と ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/handoffs/implementation-to-test-specification.md を前提に、implementation-summary.md と implementation-to-test-specification.md に記載されたブラウザテスト / Featureテスト / Unitテストの対象・非対象・要確認の判断と理由を確認したうえでテスト仕様書を作成してください。
+    prompt: 03_implementationエージェントから作業を引継ぎます。${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/implementation/implementation-summary.md と ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/implementation/source-change-*.md と ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/handoffs/implementation-to-test-specification.md を前提に、implementation-summary.md と implementation-to-test-specification.md に記載されたブラウザテスト / Featureテスト / Unitテストの対象・非対象・要確認の判断と理由を確認したうえでテスト仕様書を作成してください。
     send: false
 ---
 
@@ -17,7 +17,7 @@ handoffs:
 - 詳細設計をもとに実装を進めて、変更内容を成果物へ整理する
 - 詳細設計書が存在し、内容を読み込めた場合にのみ実装へ進む
 
-# 本エージェントの必須スキル
+# 本エージェントで使用するスキル
 
 - 実装判断を行うときは、`workflow--implementation-authority`スキルを使用する
 - 案件ファイルを配置するときは、`workflow--common-artifact-location`スキルを使用する
@@ -25,7 +25,7 @@ handoffs:
 - 引継ぎファイルを作成するときは、`workflow--common-handoff-format`スキルを使用する
 - テンプレートファイルをもとに成果物ファイルを作成するときは、`workflow--common-design-template-guide`スキルを使用する
 
-# 本エージェントの作業の入力ファイル
+# 本エージェントの入力
 
 - 案件管理ファイル
   - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/case-manifest.md

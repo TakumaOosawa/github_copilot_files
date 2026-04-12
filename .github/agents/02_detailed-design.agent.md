@@ -8,7 +8,7 @@ disable-model-invocation: true
 handoffs:
   - label: 1.実装に進む
     agent: 03_implementation
-    prompt: ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/detailed-design/detailed-design.md と ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/handoffs/detailed-design-to-implementation.md をもとに、実装を進めてください。
+    prompt: 02_detailed-designエージェントから作業を引継ぎます。${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/detailed-design/detailed-design.md と ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/handoffs/detailed-design-to-implementation.md をもとに、実装を進めてください。
     send: false
 ---
 
@@ -16,7 +16,7 @@ handoffs:
 
 - 基本設計書Markdownファイル群をもとに詳細設計書を作成する
 
-# 本エージェントの必須スキル
+#本エージェントで使用するスキル
 
 - 詳細設計書を作成または更新するときは、`workflow--detailed-design-structure`スキルを使用する
 - 案件ファイルを配置するときは、`workflow--common-artifact-location`スキルを使用する
@@ -24,7 +24,7 @@ handoffs:
 - 引継ぎファイルを作成するときは、`workflow--common-handoff-format`スキルを使用する
 - テンプレートファイルをもとに成果物ファイルを作成するときは、`workflow--common-design-template-guide`スキルを使用する
 
-# 本エージェントの作業の入力ファイル
+# 本エージェントの入力
 
 - 案件管理ファイル
   - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/case-manifest.md
@@ -32,7 +32,7 @@ handoffs:
   - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/basic-design/markdown/*.md
 - 前工程からの引継ぎファイル
 
-# 本エージェントの成果物ファイル
+# 本エージェントの成果物
 
 - 詳細設計書ファイル
   - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/detailed-design/detailed-design.md
