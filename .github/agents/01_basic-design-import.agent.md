@@ -42,8 +42,7 @@ handoffs:
 
 - 基本設計書Markdownファイル群
   - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/basic-design/markdown/*.md
-- 引継ぎファイル
-  - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/handoffs/basic-design-to-detailed-design.md
+- 次工程への引継ぎファイル
 
 # 本エージェントの作業フロー
 

@@ -14,11 +14,11 @@ handoffs:
 
 # 本エージェントの役割
 
-- 基本設計書をもとに詳細設計書を作成する
+- 基本設計書Markdownファイル群をもとに詳細設計書を作成する
 
 # 本エージェントの必須スキル
 
-- 詳細設計書の構造化方針は、`workflow--detailed-design-structure`スキルを使用する
+- 詳細設計書を作成または更新するときは、`workflow--detailed-design-structure`スキルを使用する
 - 案件ファイルを配置するときは、`workflow--common-artifact-location`スキルを使用する
 - 成果物ファイルを作成するときは、`workflow--common-output-format`スキルを使用する
 - 引継ぎファイルを作成するときは、`workflow--common-handoff-format`スキルを使用する
@@ -28,24 +28,30 @@ handoffs:
 
 - 案件管理ファイル
   - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/case-manifest.md
-- 基本設計書Markdownファイル
-  - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/basic-design/basic-design.md
-- 引継ぎファイル
-  - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/handoffs/basic-design-to-detailed-design.md
+- 基本設計書Markdownファイル群
+  - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/basic-design/markdown/*.md
+- 前工程からの引継ぎファイル
 
 # 本エージェントの成果物ファイル
 
 - 詳細設計書ファイル
   - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/detailed-design/detailed-design.md
-- 引継ぎファイル
-  - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/handoffs/detailed-design-to-implementation.md
+- 次工程への引継ぎファイル
 
-# 本エージェントの成果物テンプレート
+# 本エージェントの作業フロー
 
-- ${workspaceFolder}/.github/docs/templates/detailed-design-template.md
+1. 案件管理ファイルと基本設計書Markdownファイル群が存在するか確認する
+  - 案件管理ファイルが存在しない場合は、案件初期化エージェントへの引継ぎを案内する
+  - 基本設計書Markdownファイル群が存在しない場合は、基本設計書取り込みエージェントへの引継ぎを案内する
+2. 基本設計書Markdownファイル群をもとに詳細設計書ファイルを作成する
+3. 詳細設計書ファイルを案件ディレクトリの所定の場所に配置する
+4. 次工程への引継ぎファイルを最新化する
+5. 作業中案件の案件管理ファイルを最新化する
+6. 引継ぎ先エージェントの実施に必要な事項を案内する
+7. 引継ぎ先エージェントへの引継ぎを案内する
 
 # 本エージェントの禁止事項
 
 - コード断片中心の実装メモにすること
-- 基本設計にない業務ルールを追加すること
+- 基本設計書に記載のない業務ルールを追加すること
 - 非変更対象を暗黙的に扱って言及しないこと

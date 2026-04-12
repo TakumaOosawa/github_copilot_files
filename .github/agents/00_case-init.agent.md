@@ -44,8 +44,7 @@ handoffs:
   - `${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/case-manifest.md`
 - 基本設計書一覧ファイル
   - `${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/sources/basic-design/source-manifest.md`
-- 引継ぎファイル（案件初期化 → 基本設計書取り込み）
-  - `${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/handoffs/case-init-to-basic-design-import.md`
+- 次工程への引継ぎファイル
 - 案件ディレクトリ構成（ディレクトリ配下は空で良い）
   - `${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/sources/basic-design/csv/`
   - `${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/`
