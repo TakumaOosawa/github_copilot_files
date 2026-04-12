@@ -11,7 +11,7 @@
   - .github/instructions
   - .github/skills
   - .github/docs/templates
-  - .github/workflow-artifacts/cases/_case-template
+  - .github/docs/templates/_case-template
 
 ## 結論
 - 工程の大枠は明確で、00_case-init から 07_review-code までの主経路と差し戻し経路は定義されている。
@@ -76,7 +76,7 @@
 
 ### 5. レビュー起因の再テスト系
 - 07 から 05 に戻す分岐は定義されている。
-- しかし quality-loop.instructions.md は review-result.md と code-review-to-test-execution.md の役割分離を求めている一方、07 の 05 向け handoff prompt は両方を次工程入力として渡している。
+- しかしレビュー/再テスト境界ルールは review-result.md と code-review-to-test-execution.md の役割分離を求めている一方、07 の 05 向け handoff prompt は両方を次工程入力として渡している。
 - 05 側の作業入力定義は code-review-to-test-execution.md を追加入力として扱う構造であり、review-result.md の再依存を前提にしていない。
 - この境界不一致により、レビュー判定文書を次工程がどこまで判断根拠に使ってよいかが揺れている。
 
@@ -87,7 +87,7 @@
 - test-result.md はケース結果を持つが、どの test-spec のどの観点に対応するかを構造化していない。
 - post-test-fix 後の再テストを test-result.md の区分でどう表すかが曖昧である。テンプレートの区分は「初回テスト / レビュー後再テスト」しかない。
 - 02 と 07 は開始条件セクションを持たず、他工程と比べて case-manifest 更新要否の記述が薄い。
-- workflow-execution.instructions.md の Laravel 責務分離要求はあるが、03 と 07 の成果物テンプレートには責務分離を必ず記録する専用欄がない。
+- Laravel 責務分離ルールはあるが、03 と 07 の成果物テンプレートには責務分離を必ず記録する専用欄がない。
 - .github/agents/00_case-init.agent.md の「成果物テンプレート」節は、テンプレートと初期記入例を同列に扱っており、参照意図がやや曖昧である。
 
 ## 課題一覧
@@ -108,11 +108,12 @@
 
 #### C-02. review-result と再テスト handoff の責務分離が 07 → 05 で崩れている
 - 対象:
-  - .github/instructions/quality-loop.instructions.md
+  - .github/skills/workflow--review-code-scope/SKILL.md
+  - .github/skills/workflow--common-handoff-format/SKILL.md
   - .github/agents/07_review-code.agent.md
   - .github/agents/05_test-exec.agent.md
 - 内容:
-  - quality-loop.instructions.md は review-result.md を判定結果、code-review-to-test-execution.md を再テスト入力として分離している。
+  - レビュー/再テスト境界ルールは review-result.md を判定結果、code-review-to-test-execution.md を再テスト入力として分離している。
   - しかし 07 の 05 向け handoff prompt は review-result.md と code-review-to-test-execution.md を併読させている。
   - 05 側の正式入力定義は review-result.md を追加入力として扱っておらず、契約が不一致である。
 - 影響:
@@ -194,14 +195,15 @@
 
 #### M-01. case-manifest 更新ルールの記述が工程ごとに不均一
 - 対象:
-  - .github/instructions/workflow-execution.instructions.md
+  - .github/skills/workflow--common-artifact-location/SKILL.md
+  - .github/skills/workflow--common-case-manifest-format/SKILL.md
   - .github/agents/01_basic-design-import.agent.md
   - .github/agents/02_detailed-design.agent.md
   - .github/agents/03_implementation.agent.md
   - .github/agents/06_post-test-fix.agent.md
   - .github/agents/07_review-code.agent.md
 - 内容:
-  - workflow-execution.instructions.md は毎工程で case-manifest 更新要否を検討するよう求めている。
+  - case-manifest 関連スキルは毎工程で case-manifest 更新要否を検討するよう求めている。
   - 04 と 05 は開始条件でその旨を明文化しているが、02 と 07 は開始条件自体が無く、01・03・06 も manifest 更新の明示が弱い。
 - 影響:
   - 工程が進んでも case-manifest の現在工程、入力状況、成果物状況が揃って更新されない恐れがある。
@@ -232,12 +234,14 @@
 
 #### M-04. Laravel 責務分離の要求が 03 と 07 で弱い
 - 対象:
-  - .github/instructions/workflow-execution.instructions.md
+  - .github/skills/workflow--common-design-template-guide/SKILL.md
+  - .github/skills/workflow--implementation-authority/SKILL.md
+  - .github/skills/workflow--review-code-scope/SKILL.md
   - .github/agents/03_implementation.agent.md
   - .github/agents/07_review-code.agent.md
   - .github/docs/templates/implementation-summary-template.md
 - 内容:
-  - workflow-execution.instructions.md は Route、Middleware、Controller、Request、Service、Repository、Model、View の責務分離を要求している。
+  - Laravel 責務分離ルールは Route、Middleware、Controller、Request、Service、Repository、Model、View の責務分離を要求している。
   - 02 の詳細設計ではこの粒度を扱えるが、03 と 07 の成果物テンプレートには責務逸脱の確認結果を残す専用欄がない。
 - 影響:
   - Laravel 前提の設計整合が、後段では「意識する」止まりになりやすい。
@@ -273,7 +277,7 @@
 #### L-02. 完了後の後続状態が弱い
 - 対象:
   - .github/agents/07_review-code.agent.md
-  - .github/workflow-artifacts/cases/_case-template/case-manifest.md
+  - .github/docs/templates/case-manifest-template.md
 - 内容:
   - code-review-complete.md はあるが、完了後の case-manifest 更新や後続の引継ぎ先は定義されていない。
 - 影響:
