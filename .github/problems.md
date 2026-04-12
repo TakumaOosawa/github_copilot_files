@@ -137,22 +137,7 @@
   - 現在の戻し元を一意に決めるルールを追加する。
   - 非現行 handoff を無効扱いにする記述を追加する。
 
-#### H-02. 06 の採番規則が 03 の再入場規則と衝突する
-- 対象:
-  - .github/agents/03_implementation.agent.md
-  - .github/agents/06_post-test-fix.agent.md
-  - .github/docs/templates/source-change-02-template.md
-- 内容:
-  - 03 は source-change-N.md を常に未使用次連番で採番する。
-  - 06 は「初回のテスト後修正は 02」と固定しつつ、「以降は既存の最大連番 + 1」としている。
-  - 07 から 03 に差し戻されたあとに source-change-02.md が既に使われているケースでは、06 の固定値 02 が成立しない。
-- 影響:
-  - source-change-N.md と post-test-fix-analysis-N.md の対が崩れる。
-  - 履歴の追跡が壊れる。
-- 推奨対応:
-  - 06 も常に未使用次連番で統一し、「初回は 02」はテンプレートから削除する。
-
-#### H-03. テスト実施からテスト仕様へ戻す正式経路がない
+#### H-02. テスト実施からテスト仕様へ戻す正式経路がない
 - 対象:
   - .github/agents/05_test-exec.agent.md
   - .github/agents/06_post-test-fix.agent.md
@@ -165,7 +150,7 @@
 - 推奨対応:
   - 05 から 04 へ戻す handoff を追加するか、06 が spec defect を検出したときに 04 へ差し替え可能な規則を定義する。
 
-#### H-04. 03 と 04 の受け渡し契約が噛み合っていない
+#### H-03. 03 と 04 の受け渡し契約が噛み合っていない
 - 対象:
   - .github/agents/03_implementation.agent.md
   - .github/agents/04_test-spec.agent.md
@@ -179,7 +164,7 @@
   - 03 に「全非対象または全要確認のまま渡さない」制約を追加する。
   - または 04 に、全非対象時の差し戻し先を定義する。
 
-#### H-05. テスト十分性レビューが変更差分を正式入力に持たない
+#### H-04. テスト十分性レビューが変更差分を正式入力に持たない
 - 対象:
   - .github/agents/07_review-code.agent.md
   - .github/agents/07-06_review-test-adequacy.agent.md
@@ -289,8 +274,7 @@
 1. 05_test-exec.agent.md と 06_post-test-fix.agent.md の frontmatter を修正する。
 2. 07 → 05 の入力契約を、code-review-to-test-execution.md を唯一の再テスト入力とする形に統一する。
 3. 05 の再入場 handoff 優先順位と、05 → 04 の正式経路を定義する。
-4. 06 の採番規則を「未使用次連番」に統一し、source-change-02-template.md の固定値を廃止する。
-5. test-result.md と review/test handoff に、test-spec 名、観点 ID、再テスト区分を持たせてトレーサビリティを構造化する。
+4. test-result.md と review/test handoff に、test-spec 名、観点 ID、再テスト区分を持たせてトレーサビリティを構造化する。
 
 ## 補足
 - 本書は .github 配下の定義を静的に読んでシミュレーションした結果であり、実ランタイムでの暗黙補完までは確認していない。

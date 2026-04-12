@@ -8,7 +8,7 @@ disable-model-invocation: true
 handoffs:
   - label: 1.詳細設計作成に進む
     agent: 02_detailed-design
-    prompt: 01_basic-design-importエージェントから作業を引継ぎます。${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/basic-design/basic-design.md と ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/handoffs/basic-design-to-detailed-design.md をもとに、詳細設計を作成してください。
+    prompt: 01_basic-design-importエージェントから作業を引継ぎます。${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>配下のoutputs/basic-design/basic-design.mdとhandoffs/basic-design-to-detailed-design.mdをもとに、詳細設計を作成してください。
   - label: 2.案件初期化に戻る
     agent: 00_case-init
     prompt: 案件ディレクトリの内容を初期化してください。

@@ -8,7 +8,7 @@ disable-model-invocation: true
 handoffs:
   - label: 1.基本設計取り込みに進む
     agent: 01_basic-design-import
-    prompt: 00_case-initエージェントから作業を引継ぎます。${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/case-manifest.mdと ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/sources/basic-design/source-manifest.md と ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/handoffs/case-init-to-basic-design-import.md を確認し、${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/sources/basic-design/csv/ 配下のCSV形式の基本設計書群をMarkdownファイルとして取り込んでください。
+    prompt: 00_case-initエージェントから作業を引継ぎます。${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>配下のcase-manifest.mdとsources/basic-design/source-manifest.mdとhandoffs/case-init-to-basic-design-import.mdを確認し、${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/sources/basic-design/csv/ 配下のCSV形式の基本設計書群をMarkdownファイルとして取り込んでください。
     send: false
 ---
 

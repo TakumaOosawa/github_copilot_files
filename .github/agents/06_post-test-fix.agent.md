@@ -26,6 +26,7 @@ handoffs:
 - 実装判断を行うときは、`workflow--implementation-authority`スキルを使用する
 - 案件ファイルを配置するときは、`workflow--common-artifact-location`スキルを使用する
 - 成果物ファイルを作成するときは、`workflow--common-output-format`スキルを使用する
+- source-change-N.md を作成するときは、`workflow--common-implement-source-change`スキルを使用する
 - 引継ぎファイルを作成するときは、`workflow--common-handoff-format`スキルを使用する
 - テンプレートファイルをもとに成果物ファイルを作成するときは、`workflow--common-design-template-guide`スキルを使用する
 
@@ -52,7 +53,6 @@ handoffs:
 
 - 作業開始時に case-id を確認し、正式入力の存在を確認する
 - 詳細設計書ファイルと実装向け引継ぎファイルを先に読み込み、その内容を主基準として修正方針を判断する
-- 既存の source-change-*.md がある場合は最新連番を確認し、今回作成する source-change-N.md と post-test-fix-analysis-N.md の N を決定してから成果物作成を行う
 - test-result.md と test-execution-to-post-test-fix.md を読み込み、失敗の再現条件、影響範囲、再テスト観点を確認してから修正に入る
 - 詳細設計書ファイルまたは実装向け引継ぎファイルが存在しない、空である、または読み込めない場合は、実装判断に必要な正式入力不足を明示して停止する
 - 詳細設計書と実装向け引継ぎファイルを読まずに、コード探索、コード編集、成果物作成を開始しない
@@ -60,9 +60,9 @@ handoffs:
 # 本エージェントの成果物ファイル
 
 - 修正内容ファイル
-  - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/implementation/source-change-N.md（初回のテスト後修正は 02、以降は既存の最大連番 + 1 を 2 桁で採番）
+  - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/implementation/source-change-N.md
 - 原因分析ファイル
-  - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/implementation/post-test-fix-analysis-N.md（source-change-N.md と同じ N を使用）
+  - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/implementation/post-test-fix-analysis-N.md
 - 引継ぎファイル
   - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/handoffs/post-test-fix-to-test-execution.md
 
@@ -75,6 +75,4 @@ handoffs:
 
 - 修正判断の主基準は detailed-design.md と detailed-design-to-implementation.md とし、test-result.md と test-execution-to-post-test-fix.md は失敗内容と再現条件の確認に用いる。
 - test-failures.appendix.md は補助明細であり、存在しない場合でも test-result.md と test-execution-to-post-test-fix.md を主入力として原因特定と再現確認を進める。
-- source-change-N.md と post-test-fix-analysis-N.md は同一のテスト後修正ループで作成する対の正式成果物とし、初回は N=02、2 回目以降は既存の source-change-*.md の次連番を採番する。
-- 既存の source-change-*.md と post-test-fix-analysis-*.md は履歴として保持し、今回の修正で追加した最新連番の組を post-test-fix-to-test-execution.md から参照できる状態を保つ。
 - test-result.md と test-execution-to-post-test-fix.md だけでは修正判断に必要な失敗内容または再現条件が不足する場合は、不足情報を明示して停止する。

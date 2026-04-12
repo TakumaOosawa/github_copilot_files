@@ -8,6 +8,8 @@
 
 - .github/skills/workflow--common-artifact-location/SKILL.md
 - .github/skills/workflow--common-output-format/SKILL.md
+- .github/skills/workflow--common-implement-summary/SKILL.md
+- .github/skills/workflow--common-implement-source-change/SKILL.md
 - .github/skills/workflow--common-design-template-guide/SKILL.md
 - .github/skills/workflow--common-handoff-format/SKILL.md
 - .github/skills/workflow--implementation-authority/SKILL.md

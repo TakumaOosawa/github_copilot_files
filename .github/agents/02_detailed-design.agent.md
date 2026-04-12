@@ -8,13 +8,14 @@ disable-model-invocation: true
 handoffs:
   - label: 1.実装に進む
     agent: 03_implementation
-    prompt: 02_detailed-designエージェントから作業を引継ぎます。${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/detailed-design/detailed-design.md と ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/handoffs/detailed-design-to-implementation.md をもとに、実装を進めてください。
+    prompt: 02_detailed-designエージェントから作業を引継ぎます。${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>配下のoutputs/detailed-design/detailed-design.mdとhandoffs/detailed-design-to-implementation.mdをもとに、実装を進めてください。
     send: false
 ---
 
 # 本エージェントの役割
 
 - 基本設計書Markdownファイル群をもとに詳細設計書を作成する
+  - ユーザーと複数回対話しながら、成果物を作成して品質を高める。#tool:vscode/askQuestions を使用して、曖昧な点をユーザーに確認して進める。
 
 #本エージェントで使用するスキル
 

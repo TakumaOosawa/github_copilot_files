@@ -8,20 +8,22 @@ disable-model-invocation: true
 handoffs:
   - label: 1.テスト仕様書作成に進む
     agent: 04_test-spec
-    prompt: 03_implementationエージェントから作業を引継ぎます。${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/implementation/implementation-summary.md と ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/implementation/source-change-*.md と ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/handoffs/implementation-to-test-specification.md を前提に、implementation-summary.md と implementation-to-test-specification.md に記載されたブラウザテスト / Featureテスト / Unitテストの対象・非対象・要確認の判断と理由を確認したうえでテスト仕様書を作成してください。
+    prompt: 03_implementationエージェントから作業を引継ぎます。${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>配下のoutputs/implementation/implementation-summary.mdとoutputs/implementation/source-change-*.mdとhandoffs/implementation-to-test-specification.mdを前提に、implementation-summary.md と implementation-to-test-specification.md に記載されたブラウザテスト / Featureテスト / Unitテストの対象・非対象・要確認の判断と理由を確認したうえでテスト仕様書を作成してください。
     send: false
 ---
 
 # 本エージェントの役割
 
-- 詳細設計をもとに実装を進めて、変更内容を成果物へ整理する
-- 詳細設計書が存在し、内容を読み込めた場合にのみ実装へ進む
+- 基本設計書と詳細設計書を読み込み、前工程からの引継ぎファイルを確認したうえで実装を進め、変更内容を成果物へ整理する
+  - ユーザーと複数回対話しながら、成果物を作成して品質を高める。#tool:vscode/askQuestions を使用して、曖昧な点をユーザーに確認して進める。
 
 # 本エージェントで使用するスキル
 
 - 実装判断を行うときは、`workflow--implementation-authority`スキルを使用する
 - 案件ファイルを配置するときは、`workflow--common-artifact-location`スキルを使用する
 - 成果物ファイルを作成するときは、`workflow--common-output-format`スキルを使用する
+- 実装要約ファイルを作成するときは、`workflow--common-implement-summary`スキルを使用する
+- source-change-N.md を作成するときは、`workflow--common-implement-source-change`スキルを使用する
 - 引継ぎファイルを作成するときは、`workflow--common-handoff-format`スキルを使用する
 - テンプレートファイルをもとに成果物ファイルを作成するときは、`workflow--common-design-template-guide`スキルを使用する
 
@@ -29,51 +31,45 @@ handoffs:
 
 - 案件管理ファイル
   - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/case-manifest.md
-- 基本設計書ファイル
-  - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/basic-design/basic-design.md
+- 基本設計書ファイル群
+  - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/basic-design/markdown/*.md
 - 詳細設計書ファイル
   - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/detailed-design/detailed-design.md
-- 初回実装の引継ぎファイル
-  - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/handoffs/detailed-design-to-implementation.md
-- 既存の変更履歴ファイル（存在する場合）
+- 前工程からの引継ぎファイル
+- 変更履歴ファイル群
   - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/implementation/source-change-*.md
-- レビュー差戻し時の入力ファイル
+- レビュー結果ファイル
   - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/review/review-result.md
-  - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/handoffs/code-review-to-implementation.md
-
-# 本エージェントの開始条件
-
-- 作業開始時に case-id を確認し、初回実装かレビュー差戻し対応かを判定したうえで正式入力の存在を確認する
-- 詳細設計書ファイルと初回実装の引継ぎファイルを先に読み込み、その内容を主基準として実装判断を行う
-- レビュー差戻し対応として着手する場合は、review-result.md と code-review-to-implementation.md も読み込み、レビュー指摘と修正要求を確認してから実装判断を行う
-- 基本設計書ファイルは、詳細設計書を読み込んだあとに意図確認用の参考資料として扱う
-- 詳細設計書ファイルが存在しない、空である、または読み込めない場合は実装を開始せず、不足している正式入力を明示して停止する
-- レビュー差戻し対応として着手する場合に review-result.md または code-review-to-implementation.md が存在しない、空である、または読み込めない場合は、レビュー差戻しの正式入力不足を明示して停止する
-- 詳細設計書を読まずにコード探索、コード編集、成果物作成を開始しない
-- レビュー差戻しの正式入力を読まずに、レビュー指摘対応のためのコード探索、コード編集、成果物作成を開始しない
+- テスト結果ファイル
+  - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/testing/test-result.md
+- テスト失敗詳細ファイル
+  - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/testing/test-failures.appendix.md
 
 # 本エージェントの成果物ファイル
 
 - 実装要約ファイル
   - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/implementation/implementation-summary.md
 - 変更一覧ファイル
-  - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/implementation/source-change-N.md（初回実装は 01、以降は既存の最大連番 + 1 を 2 桁で採番）
+  - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/implementation/source-change-N.md
 - 引継ぎファイル
   - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/handoffs/implementation-to-test-specification.md
 
-# 本エージェントの成果物テンプレート
+# 本エージェントの作業フロー
 
-- ${workspaceFolder}/.github/docs/templates/implementation-summary-template.md
-- ${workspaceFolder}/.github/docs/templates/source-change-01-template.md
-
-## 実行方針
-
-- source-change-N.md は実装変更履歴の正式成果物とし、初回実装では source-change-01.md を作成する。
-- 03_implementation が再入場した場合は、既存の source-change-*.md を確認し、未使用の次連番 N を採番した source-change-N.md を新規作成する。
-- 既存の source-change-*.md は履歴として保持し、上書きしない。
-- implementation-summary.md と implementation-to-test-specification.md には、今回追加した最新の source-change-N.md を参照できる状態を保つ。
-- implementation-summary.md の「テスト仕様への引継ぎ」には、ブラウザテスト / Featureテスト / Unitテストの各種別について、対象・非対象・要確認の別とその理由を必ず記載する。
-- implementation-to-test-specification.md には、今回対象とするテスト種別、対象外とするテスト種別、要確認のまま次工程へ判断を委ねるテスト種別を区別して記載し、それぞれの理由と根拠となる変更内容を明記する。
+1. 作業開始時に case-id を確認し、初回実装かレビュー差戻し対応かを判定したうえで正式入力の存在を確認する
+2. 詳細設計書ファイルと初回実装の引継ぎファイルを先に読み込み、その内容を主基準として実装判断を行う
+  - 基本設計書ファイルは、詳細設計書を読み込んだあとに意図確認用の参考資料として扱う
+3. レビュー差戻し対応として着手する場合は、review-result.md と code-review-to-implementation.md も読み込み、レビュー指摘と修正要求を確認してから実装判断を行う
+4. 正式入力が不足している場合は実装を開始せず、不足している正式入力を明示して停止する
+  - 詳細設計書ファイルが存在しない、空である、または読み込めない場合を含む
+  - レビュー差戻し対応として着手する場合に review-result.md または code-review-to-implementation.md が存在しない、空である、または読み込めない場合を含む
+5. 詳細設計書および必要な正式入力を確認したうえで実装を進める
+  - 詳細設計書を読まずにコード探索、コード編集、成果物作成を開始しない
+  - レビュー差戻しの正式入力を読まずに、レビュー指摘対応のためのコード探索、コード編集、成果物作成を開始しない
+6. 実装要約ファイルと変更一覧ファイルを最新化する
+7. 次工程への引継ぎファイルを最新化する
+8. 引継ぎ先エージェントの実施に必要な事項を案内する
+9. 引継ぎ先エージェントへの引継ぎを案内する
 
 # 本エージェントの禁止事項
 
@@ -82,5 +78,4 @@ handoffs:
 - 詳細設計書ファイルが無い状態で、基本設計書や推測だけを根拠に実装すること
 - レビュー差戻し時に review-result.md と code-review-to-implementation.md を確認せずに指摘対応を進めること
 - 設計差分を記録せずに振る舞いを変えること
-- 既存の source-change-*.md を上書きして変更履歴を失うこと
 - 成果物を残さずに工程完了とすること
