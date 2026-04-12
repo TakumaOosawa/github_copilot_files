@@ -24,6 +24,7 @@ handoffs:
 - 基本設計書一覧ファイルを作成または更新するときは、`workflow--basic-design-source-manifest-format`スキルを使用する
 - 引継ぎファイルを作成または更新するときは、`workflow--common-handoff-format`スキルを使用する
 - 作成日時や更新日時を記録するために取得したいときは、`common--fetch-current-datetime`スキルを使用する
+- テンプレートファイルをもとに成果物ファイルを作成するときは、`workflow--common-design-template-guide`スキルを使用する
 
 # 本エージェントの入力
 
@@ -65,7 +66,7 @@ handoffs:
 3. `${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/`配下へ必要なディレクトリを作成する
 4. 案件管理ファイルを作成して初期化する
 5. 基本設計書一覧ファイルを作成して初期化する
-6. 案件初期化から基本設計書取り込みへの引継ぎファイルを作成して初期化する
+6. 次工程への引継ぎファイルを最新化する
 7. 作業中案件の案件管理ファイルを最新化する
 8. 引継ぎ先エージェントの実施に必要な事項を案内する
 9. 引継ぎ先エージェントへの引継ぎを案内する
