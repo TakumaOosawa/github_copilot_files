@@ -31,6 +31,11 @@ user-invocable: false
 - 原因仮説
 - 再テスト要否
 
+## 成果物テンプレート
+
+- test-result.md は .github/docs/templates/test-result-template.md をテンプレートとして作成または更新する。
+- test-failures.appendix.md は .github/docs/templates/test-failures-appendix-template.md をテンプレートとして作成または更新する。
+
 ## 注意事項
 
 - UI 依存の見た目確認を Feature テストだけで完了扱いにしない。
