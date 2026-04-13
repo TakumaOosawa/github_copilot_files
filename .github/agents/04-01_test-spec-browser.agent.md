@@ -1,10 +1,7 @@
 ---
 name: 04-01_test-spec-browser
 description: 画面遷移、入力、表示、操作確認を中心にブラウザテスト仕様書案を作成する補助エージェント
-argument-hint: ブラウザで確認すべき画面仕様、前提データ、操作手順を指定してください
-tools:
-  - search
-  - read
+tools: [read, search]
 user-invocable: false
 disable-model-invocation: false
 ---

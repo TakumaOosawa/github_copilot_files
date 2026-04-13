@@ -1,10 +1,7 @@
 ---
 name: 04-02_test-spec-feature
 description: HTTP 層の入出力、認証、認可、バリデーションを中心にFeatureテスト仕様書案を作成する補助エージェント
-argument-hint: Featureテストで確認すべきエンドポイント、認証状態、権限、前提データを指定してください
-tools:
-  - search
-  - read
+tools: [read, search]
 user-invocable: false
 disable-model-invocation: false
 ---

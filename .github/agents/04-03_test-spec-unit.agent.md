@@ -1,10 +1,7 @@
 ---
 name: 04-03_test-spec-unit
 description: 業務ロジック、分岐、計算、例外条件を中心にUnitテスト仕様書案を作成する補助エージェント
-argument-hint: Unitテストで確認すべきクラス、メソッド、ロジック観点、依存条件を指定してください
-tools:
-  - search
-  - read
+tools: [read, search]
 user-invocable: false
 disable-model-invocation: false
 ---

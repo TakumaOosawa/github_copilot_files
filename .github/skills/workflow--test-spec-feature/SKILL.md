@@ -26,3 +26,7 @@ description: Featureテストのテストケースや実施方針を記述する
 - 1 ケースで認可、バリデーション、正常系など複数観点を過度に混在させて失敗原因を不明確にしない。
 - HTTP層の確認なのに、前提データや認証状態を省略しない。
 - UIの見た目やブラウザ挙動をFeatureテストだけで代替したことにしない。
+
+# Featureテスト仕様書作成ルール
+
+- `${workspaceFolder}/.github/docs/templates/test-spec-feature-template.md`をテンプレートとして使用する。

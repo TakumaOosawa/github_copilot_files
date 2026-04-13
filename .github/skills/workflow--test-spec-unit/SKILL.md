@@ -26,3 +26,7 @@ description: Unitテストのテストケースや実施方針を記述すると
 - 1 ケースで複数分岐や複数責務を同時に検証して失敗原因を不明確にしない。
 - HTTPリクエストや画面遷移の確認をUnitテストに持ち込まない。
 - モックやスタブの前提を省略して、再現条件が曖昧なままにしない。
+
+# Unitテスト仕様書作成ルール
+
+- `${workspaceFolder}/.github/docs/templates/test-spec-unit-template.md`をテンプレートとして使用する。
