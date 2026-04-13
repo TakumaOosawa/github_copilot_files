@@ -11,6 +11,7 @@ stateDiagram-v2
     state "4: テスト仕様書作成" as test_specification
     state "5: テスト実施" as test_execution
     state "6: コードレビュー" as code_review
+    state "7: 完了" as workflow_complete
 
     case_init --> basic_design_import
 
@@ -23,15 +24,19 @@ stateDiagram-v2
     implementation --> detailed_design
     implementation --> test_specification
 
-    test_specification --> basic_design_import
     test_specification --> detailed_design
+    test_specification --> implementation
     test_specification --> test_execution
 
     test_execution --> test_specification
     test_execution --> code_review
     test_execution --> implementation
 
-    code_review --> basic_design_import
     code_review --> detailed_design
     code_review --> implementation
+    code_review --> test_specification
+    code_review --> test_execution
+    code_review --> workflow_complete
+
+    workflow_complete --> [*]
 ```

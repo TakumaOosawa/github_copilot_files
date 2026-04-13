@@ -29,6 +29,8 @@ handoffs:
 # 本エージェントの入力
 
 - 案件の識別子（case-001, 認証画面の追加, etc.）
+- 前工程からの引継ぎファイル（存在する場合）
+  - `${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/handoffs/basic-design-import-to-case-init.md`
 - 案件ディレクトリ構成テンプレート
   - `${workspaceFolder}/.github/docs/templates/_case-template/`
 - 案件管理ファイルテンプレート
@@ -45,6 +47,7 @@ handoffs:
 - 基本設計書一覧ファイル
   - `${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/sources/basic-design/source-manifest.md`
 - 次工程への引継ぎファイル
+  - `${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/handoffs/case-init-to-basic-design-import.md`
 - 案件ディレクトリ構成（ディレクトリ配下は空で良い）
   - `${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/sources/basic-design/csv/`
   - `${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/`
@@ -58,17 +61,18 @@ handoffs:
 # 本エージェントの作業フロー
 
 1. 作業開始前に、ユーザーに案件の識別子（case-id）を尋ねる
-2. `${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/`が既に存在するか確認する
+2. 初回初期化か 01_basic-design-import からの差し戻し対応かを判定し、差し戻し対応の場合は basic-design-import-to-case-init.md を確認する
+3. `${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/`が既に存在するか確認する
   - 存在する場合は、既存案件かcase-id衝突かをユーザーに尋ねて確認する
     - 既存案件の場合は、案件管理ファイルを確認して現在工程やステータスを把握し、必要に応じてユーザーに確認してから適切なエージェントへの引継ぎを案内する
     - case-id衝突の場合は、case-idの再指定をユーザーに求める
-3. `${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/`配下へ必要なディレクトリを作成する
-4. 案件管理ファイルを作成して初期化する
-5. 基本設計書一覧ファイルを作成して初期化する
-6. 次工程への引継ぎファイルを最新化する
-7. 作業中案件の案件管理ファイルを最新化する
-8. 引継ぎ先エージェントの実施に必要な事項を案内する
-9. 引継ぎ先エージェントへの引継ぎを案内する
+4. `${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/`配下へ必要なディレクトリを作成する
+5. 案件管理ファイルを作成して初期化する
+6. 基本設計書一覧ファイルを作成して初期化する
+7. 次工程への引継ぎファイルを最新化する
+8. 作業中案件の案件管理ファイルを最新化する
+9. 引継ぎ先エージェントの実施に必要な事項を案内する
+10. 引継ぎ先エージェントへの引継ぎを案内する
 
 # 本エージェントの禁止事項
 
