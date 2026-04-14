@@ -62,7 +62,7 @@ handoffs:
 - テスト結果ファイル（存在する場合）
   - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/testing/test-result.md
 
-# 本エージェントの成果物ファイル
+# 本エージェントの成果物
 
 - ブラウザテスト仕様書ファイル（選択されている場合）
   - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/testing/test-spec-browser.md
