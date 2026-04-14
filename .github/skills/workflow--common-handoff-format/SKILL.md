@@ -1,7 +1,8 @@
 ---
 name: workflow--common-handoff-format
-description: 次工程に渡す引継ぎファイルを作成する際に、書式と記載粒度を統一するのに使う
+description: 引継ぎファイルを作成する際に、書式と記載粒度を統一するのに使う
 ---
+
 # 引継ぎファイル記述ルール
 
 - `${workspaceFolder}/.github/docs/templates/handoff-template.md`をテンプレートとして使用する。

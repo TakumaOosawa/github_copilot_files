@@ -1,7 +1,7 @@
 ---
 name: 00_case-init
 description: 新規案件ディレクトリを作成して初期化する
-argument-hint: 案件の識別子case-idを指定してください。
+argument-hint: 案件の識別子case-idを指定してください。case-idは、フォルダ名として使用できる文字は全て使用できます。
 tools: [vscode/memory, vscode/askQuestions, read/problems, read/readFile, read/viewImage, agent, edit/createDirectory, edit/createFile, edit/editFiles, edit/rename, search, web/fetch, todo]
 user-invocable: true
 disable-model-invocation: true
@@ -68,6 +68,7 @@ handoffs:
 6. 次工程への引継ぎファイルを最新化する
 7. 作業中案件の案件管理ファイルを最新化する
 8. 引継ぎ先エージェントの実施に必要な事項を案内する
+  - フロントマターの `handoffs` に記載されたエージェント群への引継ぎのみ可能
 9. 引継ぎ先エージェントへの引継ぎを案内する
 
 # 本エージェントの禁止事項
