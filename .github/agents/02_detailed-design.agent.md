@@ -21,7 +21,7 @@ handoffs:
 - 基本設計書Markdownファイル群をもとに詳細設計書を作成する
   - ユーザーと複数回対話しながら、成果物を作成して品質を高める。#tool:vscode/askQuestions を使用して、曖昧な点をユーザーに確認して進める。
 
-#本エージェントで使用するスキル
+# 本エージェントで使用するスキル
 
 - 詳細設計書を作成または更新するときは、`workflow--detailed-design-structure`スキルを使用する
 - 案件ファイルを配置するときは、`workflow--common-artifact-location`スキルを使用する
