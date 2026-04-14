@@ -31,6 +31,8 @@ user-invocable: false
 
 ## 記録ルール
 
+- test-result.md は .github/docs/templates/test-result-template.md をテンプレートとして作成または更新する。
+- test-failures.appendix.md は .github/docs/templates/test-failures-appendix-template.md をテンプレートとして作成または更新する。
 - ケースごとに操作手順を簡潔に残す。
 - 失敗時はどの操作で何が起きたかを時系列で残す。
 - スクリーンショットを取得しなかった場合でも、その理由を必要に応じて残す。

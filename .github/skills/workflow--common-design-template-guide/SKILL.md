@@ -30,6 +30,11 @@ user-invocable: false
 4. 推測が必要な箇所は要確認事項へ回す。
 5. 参照元、更新日、case-id を文書情報へ記載する。
 
+## 工程別テンプレート
+
+- レビュー工程の review-result.md は `${workspaceFolder}/.github/docs/templates/review-result-template.md` を使用する。
+- レビュー工程の review-findings.appendix.md は `${workspaceFolder}/.github/docs/templates/review-findings-appendix-template.md` を使用し、review-result.md に従属する補助明細が必要な場合のみ作成する。
+
 ## 出力チェック
 
 - 文書情報があるか
