@@ -45,7 +45,7 @@ handoffs:
   - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/basic-design/markdown/*.md
 - 詳細設計書ファイル
   - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/detailed-design/detailed-design.md
-- 実装サマリファイル
+- 実装要約ファイル
   - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/implementation/implementation-summary.md
 - 変更内容ファイル（1 件以上）
   - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/implementation/source-change-*.md
@@ -78,7 +78,7 @@ handoffs:
 # 本エージェントの作業フロー
 
 1. 作業開始時に case-id を確認し、03_implementation からの初回着手か 06_review-code からの差し戻し対応か 05_test-exec からの差し戻し対応かを判定したうえで正式入力の存在を確認する
-  - 案件管理ファイル、基本設計書Markdownファイル群、詳細設計書ファイル、実装サマリファイル、変更内容ファイル、前工程からの引継ぎファイルなど、今回の作業に必要な正式入力がそろっていることを確認する
+  - 案件管理ファイル、基本設計書Markdownファイル群、詳細設計書ファイル、実装要約ファイル、変更内容ファイル、前工程からの引継ぎファイルなど、今回の作業に必要な正式入力がそろっていることを確認する
   - 05_test-exec からの差し戻し対応として着手する場合は、test-result.md と test-execution-to-test-specification.md も読み込み、テスト実施で判明した仕様不足や誤りを確認する
   - 不足する正式入力がある場合は、ユーザー確認または前工程への差し戻し案内を行い、補完前に成果物作成を進めない
 2. 前工程からの引継ぎ内容を確認し、今回のテスト仕様書作成・更新の起点とする判断材料を整理する
