@@ -1,6 +1,6 @@
 ---
 name: workflow--test-exec-browser
-description: 統合ブラウザを使った画面テスト、操作確認、証跡整理を行うときに使う。ブラウザテスト仕様の実施、画面遷移確認、入力検証、スクリーンショット有無の整理に向く。
+description: 統合ブラウザを使ったブラウザテストの実施、操作確認、証跡整理を行うときに使う。ブラウザテスト仕様に沿った実施、画面遷移確認、入力検証、スクリーンショット有無の整理に向く。
 user-invocable: false
 ---
 # Browser Test Execution
