@@ -59,7 +59,7 @@ handoffs:
   - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/testing/test-spec-unit.md
 - コードレビュー結果ファイル（存在する場合）
   - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/review/review-result.md
-- テスト実施結果ファイル（存在する場合）
+- テスト結果ファイル（存在する場合）
   - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/testing/test-result.md
 
 # 本エージェントの成果物ファイル

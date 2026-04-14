@@ -50,14 +50,14 @@ handoffs:
   - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/review/review-result.md
 - コードレビューからの引継ぎファイル（存在する場合）
   - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/handoffs/code-review-to-test-execution.md
-- テスト実施結果書テンプレート
+- テスト結果テンプレート
   - ${workspaceFolder}/.github/docs/templates/test-result-template.md
 - 失敗ケース詳細テンプレート
   - ${workspaceFolder}/.github/docs/templates/test-failures-appendix-template.md
 
 # 本エージェントの成果物
 
-- テスト実施結果書ファイル
+- テスト結果ファイル
   - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/testing/test-result.md
 - 失敗ケース詳細ファイル（必要な場合のみ）
   - ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/outputs/testing/test-failures.appendix.md
