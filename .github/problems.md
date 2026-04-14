@@ -1,196 +1,115 @@
-# .github ワークフロー問題整理
+# .github 配下 GitHub Copilot 設定ファイルの課題一覧
 
-## 文書情報
-- 文書名: .github ワークフロー問題整理
-- 対象: .github 配下の GitHub Copilot 活用フロー定義
-- 作成日: 2026-04-07
-- 更新日: 2026-04-12
-- 調査方法: 静的読解 + 構造整理後の整合確認
-- サブエージェント内訳: Explore x4、06-01_review-coding-rules、06-02_review-design-alignment、06-03_review-laravel-structure、06-04_review-regression、06-05_review-security、06-06_review-test-adequacy
-- 対象範囲:
-  - .github/agents
-  - .github/instructions
-  - .github/skills
-  - .github/docs/templates
-  - .github/docs/templates/_case-template
+## 調査方法
 
-## 結論
-- 親工程は 00_case-init から 06_review-code までの 7 工程に整理した。
-- テスト失敗時の修正は独立工程を立てず、03_implementation への差し戻しとして扱う構造に統一した。
-- 05_test-exec の失敗時 handoff は test-execution-to-implementation.md に、成功時 handoff は test-execution-to-code-review.md に整理した。
-- レビュー親エージェントとレビュー補助エージェントは 06 系の番号へそろえ、親工程番号と補助番号の関係が追いやすくなった。
-- 一方で、テスト実施中に test-spec 不足が判明した場合の正式な戻し先、test-result と test-spec のトレーサビリティ、完了時の case-manifest 更新など、構造以外の運用課題は残っている。
+- 対象は [copilot-instructions.md](copilot-instructions.md)、[agents](agents)、[skills](skills)、[docs/templates](docs/templates)、[docs/templates/_case-template](docs/templates/_case-template) とした。
+- 10 本の runSubagent で観点別に調査し、優先度が高い候補は read_file と list_dir で一次証跡を再確認した。
+- 優先度は、P1 を誤作動・誤誘導・工程停止、P2 を安全性と運用信頼性の低下、P3 を保守性と発見性の低下として整理した。
 
-## 想定される実作業フロー
+## P1
 
-### 主経路
-1. 00_case-init
-2. 01_basic-design-import
-3. 02_detailed-design
-4. 03_implementation
-5. 04_test-spec
-6. 05_test-exec
-7. 06_review-code
-8. code-review-complete で終了
+### P1-1 基本設計成果物の正規配置が分裂している
 
-### 主な条件分岐
-| 起点工程 | 条件 | 遷移先 | 正式 handoff |
-| --- | --- | --- | --- |
-| 05_test-exec | テスト失敗あり | 03_implementation | test-execution-to-implementation.md |
-| 05_test-exec | テスト失敗なし | 06_review-code | test-execution-to-code-review.md |
-| 06_review-code | 修正要 | 03_implementation | code-review-to-implementation.md |
-| 06_review-code | 修正不要かつ新規テスト種別または仕様拡張が必要 | 04_test-spec | code-review-to-test-specification.md |
-| 06_review-code | 修正不要かつ既存仕様で再確認可能 | 05_test-exec | code-review-to-test-execution.md |
-| 06_review-code | 修正不要かつ再テスト不要 | 終了 | code-review-complete.md |
+- 対象: [skills/workflow--common-artifact-location/SKILL.md](skills/workflow--common-artifact-location/SKILL.md)、[agents/00_case-init.agent.md](agents/00_case-init.agent.md)、[agents/01_basic-design-import.agent.md](agents/01_basic-design-import.agent.md)、[agents/02_detailed-design.agent.md](agents/02_detailed-design.agent.md)、[docs/templates/case-manifest-template.md](docs/templates/case-manifest-template.md)、[docs/templates/_case-template](docs/templates/_case-template)
+- 事実: 共通ルールと 00 は outputs/basic-design を正規配置として扱っている一方、01 と 02 は outputs/basic-design/markdown 配下を正式入力として扱い、case-manifest テンプレートは outputs/basic-design/basic-design.md を追跡対象にしている。さらに _case-template の実体には sources/basic-design/markdown ディレクトリがある。
+- 影響: 初期化、案件管理、後続工程が別々の正規配置を前提にするため、新規案件の立ち上げと再開で迷子になりやすい。テンプレート更新時の修正漏れも起きやすい。
+- 推奨対応: 基本設計 Markdown の正規配置を 1 つに固定し、共通 skill、00、case-manifest テンプレート、_case-template、01、02 を同時にそろえる。
 
-### 実際にシミュレーションしたシナリオ
-1. 正常系: 00 → 01 → 02 → 03 → 04 → 05 成功 → 06 承認 → 完了
-2. テスト失敗系: 00 → 01 → 02 → 03 → 04 → 05 失敗 → 03 再入場 → 04 → 05 再テスト → 06
-3. レビュー差戻し系: 06 で修正要 → 03 再入場 → 04 → 05 → 06
-4. レビュー起因のテスト仕様追加系: 06 で仕様追加要 → 04 再入場 → 05 → 06
-5. レビュー起因の再テスト系: 06 で既存仕様の再確認要 → 05 再入場 → 06
+### P1-2 00_case-init の handoff prompt が self-contained になっていない
 
-## シミュレーション結果
+- 対象: [agents/00_case-init.agent.md](agents/00_case-init.agent.md)
+- 事実: 01 への handoff prompt だけが source-manifest.md と handoff ファイルを cases/<case-id> 配下の相対断片で記述しており、他の handoff prompt のような完全パス列挙になっていない。
+- 影響: handoff prompt だけを読んだ次工程が正式入力を機械的に特定しにくい。prompt の self-contained 性が崩れ、運用ルールの一貫性も落ちる。
+- 推奨対応: prompt 内で参照する全ファイルを ${workspaceFolder}/.github/workflow-artifacts/cases/<case-id>/... の完全パスで列挙する。
 
-### 1. 正常系
-- 主経路は成立している。
-- 00 から 04 までは、入力と成果物のつながりが比較的素直で追いやすい。
-- 05 成功時に 06 へ進み、06 で code-review-complete.md を出す終端も定義されている。
-- ただし、完了時に case-manifest をどう最終状態へ更新するかは依然として明示が弱い。
+### P1-3 04_test-spec から 03_implementation への handoff prompt が 03 の正式入力を満たしていない
 
-### 2. テスト失敗系
-- 05 失敗時に 03 へ戻す構造にしたことで、親工程の並びは 00 から 06 のまま維持できる。
-- 03 は detailed-design.md と detailed-design-to-implementation.md を主基準としつつ、test-result.md と test-execution-to-implementation.md を併読して修正方針を判断するため、失敗対応時の入力契約が一本化された。
-- 失敗起点の修正内容は source-change-N.md と implementation-summary.md に集約し、必要な場合は test-execution-fix-analysis-N.md に失敗分析を残せる。
-- 一方で、05 実行中に「実装ではなく test-spec の不足」と判断した場合の正式な 04 戻しは依然として未定義である。
+- 対象: [agents/04_test-spec.agent.md](agents/04_test-spec.agent.md)、[agents/03_implementation.agent.md](agents/03_implementation.agent.md)
+- 事実: 04 の 03 向け handoff prompt には、03 が正式入力として定義している基本設計 Markdown 群と detailed-design-to-implementation.md が含まれていない。
+- 影響: handoff prompt を信頼して 03 を再開すると、callee 側が前提にしている入力契約とずれる。差し戻しループで必要情報の読み落としが起きやすい。
+- 推奨対応: 04 の 03 向け prompt を、03 の正式入力を最低限包含する内容へ修正する。あわせて handoff prompt は callee の正式入力を包含するという共通ルールを明文化する。
 
-### 3. レビュー差戻し系
-- 06 が code-review-to-implementation.md で 03 に戻す流れは維持されている。
-- 03 は review-result.md と code-review-to-implementation.md を読むよう要求しているため、レビュー指摘を見落とさずに修正へ入る設計になっている。
-- ただし、06 が持っていた再テスト観点を 03 が implementation-to-test-specification.md に必ず再掲する契約は、なお明文化を強める余地がある。
+### P1-4 review-result テンプレートの次アクションが 06_review-code の正式分岐と一致していない
 
-### 4. レビュー起因のテスト仕様追加系
-- 06 から 04 に戻す分岐は定義されている。
-- 04 は既存の test-specification-to-test-execution.md を参照しつつ追加更新する前提を持つ。
-- ただし、以前に「非対象」としたテスト種別をレビューで追加対象に変えるときの優先ルールは依然として曖昧である。
+- 対象: [docs/templates/review-result-template.md](docs/templates/review-result-template.md)、[agents/06_review-code.agent.md](agents/06_review-code.agent.md)
+- 事実: review-result テンプレートの次アクションは 完了、実装修正、テスト仕様更新、再テスト の 4 通りしかないが、06 は code-review-to-detailed-design.md を作成して 02 へ戻す正式分岐を持っている。
+- 影響: レビュー結果をテンプレートどおりに埋めると、詳細設計への差し戻しを正規の語彙で表現できない。レビュー結果と handoff の整合が崩れ、誤ルーティングを招きやすい。
+- 推奨対応: 次アクションに 詳細設計更新 もしくは同義の選択肢を追加し、判定ルールも 06 の分岐条件に合わせる。
 
-### 5. レビュー起因の再テスト系
-- 06 から 05 に戻す分岐は定義されている。
-- 05 側の追加入力は code-review-to-test-execution.md に寄せたため、review-result.md と再テスト handoff の責務は整理しやすくなった。
-- ただし、test-result.md が参照 test-spec や観点 ID を構造化していないため、十分性確認はまだ手書き運用へ依存している。
+### P1-5 すべてのテスト種別が非対象になった場合の完了経路がない
 
-## 未定義または曖昧な点
-- 05 で「テスト仕様そのものが不十分」と分かった場合に、04 へ正式に戻す経路がない。
-- 03 の出力が全テスト種別を「非対象」または「要確認」とした場合、04 は停止条件に入りやすいが、その場合の上位差し戻し先が曖昧である。
-- test-result.md は再テスト区分を持てるようにしたが、どの test-spec のどの観点に対応するかを構造化していない。
-- 02 と 06 は開始条件セクションを持たず、他工程と比べて case-manifest 更新要否の記述が薄い。
-- Laravel 責務分離ルールはあるが、03 と 06 の成果物テンプレートには責務分離を必ず記録する専用欄がない。
-- .github/agents/00_case-init.agent.md の「成果物テンプレート」節は、テンプレートと初期記入例を同列に扱っており、参照意図がやや曖昧である。
+- 対象: [skills/workflow--common-implement-summary/SKILL.md](skills/workflow--common-implement-summary/SKILL.md)、[agents/03_implementation.agent.md](agents/03_implementation.agent.md)、[agents/04_test-spec.agent.md](agents/04_test-spec.agent.md)
+- 事実: implementation-summary では 3 種別すべてに対象、非対象、要確認の判定記載を要求している一方、04 は対象テスト種別が 1 件も確定しないと停止する。03 からの通常遷移先は 04 であり、テスト不要として閉じる分岐がない。
+- 影響: 文言修正や設定変更のように 3 種別すべてが妥当に非対象な変更で工程が詰まる。不要なテスト種別を捏造する圧力も生まれる。
+- 推奨対応: テスト不要の正式分岐を追加するか、0 件対象を許容してレビューへ進める規約を用意する。
 
-## 課題一覧
+## P2
 
-### High
+### P2-1 05_test-exec の権限が広すぎ、環境境界も定義されていない
 
-#### H-01. テスト実施からテスト仕様へ戻す正式経路がない
-- 対象:
-  - .github/agents/05_test-exec.agent.md
-  - .github/agents/04_test-spec.agent.md
-  - .github/agents/06_review-code.agent.md
-- 内容:
-  - 05 の正式 handoff は 03 か 06 の二択であり、04 へ戻す経路が無い。
-  - 実行中に「実装バグではなく test-spec の不足や誤り」と判断しても、正式な戻し先は定義されていない。
-- 影響:
-  - テスト仕様の不備を実装修正へ押し込むか、手順外運用で補うしかなくなる。
-- 推奨対応:
-  - 05 から 04 へ戻す handoff を追加するか、05 が spec defect を検出したときに 04 へ差し替え可能な規則を定義する。
+- 対象: [agents/05_test-exec.agent.md](agents/05_test-exec.agent.md)
+- 事実: runInTerminal、terminalSelection、terminalLastCommand、browser、web/fetch が広く許可されている一方、許可コマンド、対象環境、対象 URL の境界が書かれていない。
+- 影響: テスト以外の環境での誤実行、端末選択内容や直前コマンドからの機密露出、不要なブラウザ操作のリスクがある。
+- 推奨対応: 実行コマンドの allowlist、対象環境の明示確認、対象 URL の制限を追加し、terminalSelection と terminalLastCommand は削る。
 
-#### H-02. テスト十分性レビューが変更差分を正式入力に持たない
-- 対象:
-  - .github/agents/06_review-code.agent.md
-  - .github/agents/06-06_review-test-adequacy.agent.md
-- 内容:
-  - 06 は test-result.md と test-execution-to-code-review.md と参照 test-spec の突合を重視している。
-  - 06-06 へ渡す入力は test-result と handoff と test-spec 中心で、implementation-summary や source-change が常に明示されていない。
-- 影響:
-  - 「何が変わったか」に対して十分なテストだったかを定義上は評価しきれない。
-- 推奨対応:
-  - 06-06 への正式入力に implementation-summary.md と最新の source-change-N.md を追加する。
+### P2-2 06_review-code がレビュー工程なのに編集権限を持ち、ソース編集禁止も明記していない
 
-### Medium
+- 対象: [agents/06_review-code.agent.md](agents/06_review-code.agent.md)
+- 事実: review 親エージェントに createDirectory、createFile、editFiles、rename が付与されているが、禁止事項にはソースコード、テストコード、設計書本文を編集しない制約がない。
+- 影響: レビューと修正の責務が混線し、review-result と実ソースの独立性が崩れる。監査と再レビューの観点でも不利。
+- 推奨対応: 書き込み先を outputs/review と handoffs に限定するか、少なくともレビュー工程でのソース編集禁止を明文化する。
 
-#### M-01. case-manifest 更新ルールの記述が工程ごとに不均一
-- 対象:
-  - .github/skills/workflow--common-artifact-location/SKILL.md
-  - .github/skills/workflow--common-case-manifest-format/SKILL.md
-  - .github/agents/01_basic-design-import.agent.md
-  - .github/agents/02_detailed-design.agent.md
-  - .github/agents/03_implementation.agent.md
-  - .github/agents/06_review-code.agent.md
-- 内容:
-  - case-manifest 関連スキルは毎工程で case-manifest 更新要否を検討するよう求めている。
-  - 04 と 05 は開始条件でその旨を明文化しているが、02 と 06 は開始条件自体が無く、01 と 03 も manifest 更新の明示が弱い。
-- 影響:
-  - 工程が進んでも case-manifest の現在工程、入力状況、成果物状況が揃って更新されない恐れがある。
-- 推奨対応:
-  - 全工程に開始条件節を揃え、manifest 更新要否の確認を明文化する。
+### P2-3 06 系の補助エージェントで責務が重複している
 
-#### M-02. test-result テンプレートに test-spec とのトレーサビリティがない
-- 対象:
-  - .github/docs/templates/test-result-template.md
-  - .github/docs/templates/handoff-template.md
-- 内容:
-  - test-result-template.md には対象 test-spec や観点 ID を構造化する欄がない。
-  - handoff-template.md も汎用的で、テスト仕様との結び付きは利用側の記述に委ねられている。
-- 影響:
-  - 06 が test-spec と test-result の対応を確実に追うには、毎回手書き運用へ依存する。
-- 推奨対応:
-  - test-result.md に test-spec ファイル名、観点 ID、再実施対象を入れる欄を追加する。
+- 対象: [agents/06-01_review-coding-rules.agent.md](agents/06-01_review-coding-rules.agent.md)、[agents/06-03_review-laravel-structure.agent.md](agents/06-03_review-laravel-structure.agent.md)、[agents/06-05_review-security.agent.md](agents/06-05_review-security.agent.md)、[agents/06-02_review-design-alignment.agent.md](agents/06-02_review-design-alignment.agent.md)
+- 事実: 06-01、06-03、06-05 がいずれも Laravel の責務配置を確認対象に含め、06-03 は設計差分まで扱っていて 06-02 とも境界がぶつかっている。
+- 影響: 同一論点の重複指摘、逆に相手担当待ちによる見落とし、親エージェント側の重複排除コストが発生する。
+- 推奨対応: 06-03 を Laravel 構造の主担当に固定し、06-01 は規約と可読性、06-05 はセキュリティ結果に限定する。補助エージェントの出力契約も共通化する。
 
-#### M-03. Laravel 責務分離の要求が 03 と 06 で弱い
-- 対象:
-  - .github/skills/workflow--common-design-template-guide/SKILL.md
-  - .github/skills/workflow--implementation-authority/SKILL.md
-  - .github/skills/workflow--review-code-scope/SKILL.md
-  - .github/agents/03_implementation.agent.md
-  - .github/agents/06_review-code.agent.md
-  - .github/docs/templates/implementation-summary-template.md
-- 内容:
-  - Laravel 責務分離ルールは Route、Middleware、Controller、Request、Service、Repository、Model、View の責務分離を要求している。
-  - 02 の詳細設計ではこの粒度を扱えるが、03 と 06 の成果物テンプレートには責務逸脱の確認結果を残す専用欄がない。
-- 影響:
-  - Laravel 前提の設計整合が、後段では「意識する」止まりになりやすい。
-- 推奨対応:
-  - implementation-summary.md と review-result.md に責務配置確認欄を追加する。
+### P2-4 共通出力ルールの 1 工程 1 正式ファイル という原則が現行 workflow と衝突している
 
-### Low
+- 対象: [skills/workflow--common-output-format/SKILL.md](skills/workflow--common-output-format/SKILL.md)、[agents/03_implementation.agent.md](agents/03_implementation.agent.md)、[agents/04_test-spec.agent.md](agents/04_test-spec.agent.md)
+- 事実: common-output-format は 1 工程 1 正式ファイルを原則としているが、03 は implementation-summary と source-change-N を併用し、04 は test-spec-browser、test-spec-feature、test-spec-unit を正式成果物として持っている。
+- 影響: 共通ルールを正本として読むと、現行の複数成果物工程が例外運用になってしまう。新規 agent 追加時に誤ったルール解釈を招く。
+- 推奨対応: common-output-format を書式と記述ルールに限定するか、複数正式成果物を持つ工程の例外を明記する。
 
-#### L-01. 00_case-init のテンプレート参照の表現が曖昧
-- 対象:
-  - .github/agents/00_case-init.agent.md
-- 内容:
-  - 「成果物テンプレート」節に、実テンプレートと初期記入例が混在している。
-- 影響:
-  - 実装者がどれを雛形、どれを参照例として扱うべきか迷う可能性がある。
-- 推奨対応:
-  - 「テンプレート」と「初期記入例」を別見出しに分ける。
+### P2-5 00_case-init の既存案件再開方針と実際の handoff 制約が一致していない
 
-#### L-02. 完了後の後続状態が弱い
-- 対象:
-  - .github/agents/06_review-code.agent.md
-  - .github/docs/templates/case-manifest-template.md
-- 内容:
-  - code-review-complete.md はあるが、完了後の case-manifest 更新や後続の引継ぎ先は定義されていない。
-- 影響:
-  - ワークフロー終端は分かるが、案件管理上の完了状態が文書間で揃わない可能性がある。
-- 推奨対応:
-  - case-manifest の完了状態更新を 06 の終了条件へ追加する。
+- 対象: [agents/00_case-init.agent.md](agents/00_case-init.agent.md)
+- 事実: 本文では既存案件なら現在工程を見て適切なエージェントへの引継ぎを案内するとしている一方、実際の frontmatter handoff は 01_basic-design-import だけで、本文でも handoffs に記載されたエージェント群への引継ぎのみ可能としている。
+- 影響: 入口エージェントとしての説明と実際に取れる遷移がずれ、既存案件再開時に誤案内が起きやすい。
+- 推奨対応: 00 を新規案件専用と明記するか、現在工程に応じた handoff を追加する。
 
-## 優先対応案
-1. 05 から 04 への正式差し戻し条件と handoff を定義する。
-2. 06-06_review-test-adequacy へ implementation-summary.md と最新 source-change-N.md を正式入力として明文化する。
-3. test-result.md と review/test handoff に、test-spec 名と観点 ID を持たせてトレーサビリティを構造化する。
-4. case-manifest の完了状態更新を 06_review-code の終了条件へ追加する。
+## P3
 
-## 補足
-- 本書は .github 配下の定義を静的に読んでシミュレーションした結果であり、実ランタイムでの暗黙補完までは確認していない。
-- 2026-04-12 時点では、親工程の構造整理と主要 handoff 名の整合は反映済みである。
+### P3-1 見出し構文と見出し名の小さな崩れが残っている
+
+- 対象: [agents/02_detailed-design.agent.md](agents/02_detailed-design.agent.md)、[agents/03_implementation.agent.md](agents/03_implementation.agent.md)、[agents/04_test-spec.agent.md](agents/04_test-spec.agent.md)
+- 事実: 02 の スキル見出しだけが #本 になっており Markdown 見出しとして崩れている。加えて 03 と 04 の成果物見出しだけが 本エージェントの成果物ファイル で、他の main agent と一致していない。
+- 影響: VS Code のアウトライン、差分レビュー、将来の lint 導入時にノイズになる。
+- 推奨対応: main agents 00 から 06 の見出しラベルを完全一致で正規化する。
+
+### P3-2 入口文書の skill 体系説明が実体と少しずれている
+
+- 対象: [copilot-instructions.md](copilot-instructions.md)、[agents/00_case-init.agent.md](agents/00_case-init.agent.md)、[skills/common--fetch-current-datetime/SKILL.md](skills/common--fetch-current-datetime/SKILL.md)
+- 事実: 入口文書は 詳細ルールは workflow--* スキルに分割して管理すると説明しているが、実際には common--fetch-current-datetime も main agent から使われている。
+- 影響: 新規 contributor が common 系 skill の存在を見落としやすい。命名規約の理解もぶれやすい。
+- 推奨対応: .github/skills 配下の skill に分割して管理する、と表現を緩めるか、workflow 系と common 系の二系統を明示する。
+
+### P3-3 外部サイト依存の日時取得 skill が不要な外部依存を増やしている
+
+- 対象: [skills/common--fetch-current-datetime/SKILL.md](skills/common--fetch-current-datetime/SKILL.md)、[agents/00_case-init.agent.md](agents/00_case-init.agent.md)
+- 事実: 現在日時取得のために毎回 worldtimeserver.com へ fetch し、キャッシュ回避の unique_id まで要求している。
+- 影響: 外部サービス停止時の失敗点になり、日時記録という軽い用途のために不要な外部通信面を増やしている。
+- 推奨対応: セッション文脈またはローカル時刻取得へ寄せる。外部参照が必要な場合も first-party か明示的な allowlist に限定する。
+
+## 優先度を下げたが把握済みの論点
+
+- 表記ゆれは別途 [valiation-in-spelling.md](valiation-in-spelling.md) に 8 件まとまっており、今回の problems.md では動作影響が大きい問題を優先した。
+- code-review-complete.md は from-to 形式の handoff 命名規約から外れているが、現時点では命名ルールの一貫性問題として扱い、上位課題には入れていない。
+
+## 除外した誤検知
+
+- [.github/instructions](instructions) が空なのは、現行運用では workflow ルールを skill へ集約しているため、単独では問題としなかった。
+- agent と skill の frontmatter 区切り、および主要な参照名の整合は概ね成立していた。
+- docs/templates 配下で参照されている主要テンプレートファイルは存在していた。
